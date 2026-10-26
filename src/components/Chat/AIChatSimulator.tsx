@@ -61,15 +61,20 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
   const [lastIntent, setLastIntent] = useState<string>('Information Gathering');
   const [confirmedSlot, setConfirmedSlot] = useState<string | null>(null);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesPaneRef = useRef<HTMLDivElement>(null);
+  const previousMessageCount = useRef(messages.length);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const pane = messagesPaneRef.current;
+    if (pane) pane.scrollTo({ top: pane.scrollHeight, behavior: 'smooth' });
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isLoading]);
+    // Do not scroll the document on initial mount. Only new conversation events
+    // advance the contained transcript for a user already working in the chat.
+    if (messages.length > previousMessageCount.current) scrollToBottom();
+    previousMessageCount.current = messages.length;
+  }, [messages]);
 
   // When property selection changes, greet client with new property context
   const handlePropertyChange = (prop: Property) => {
@@ -236,18 +241,18 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {/* Property Selector Bar */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg">
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg shadow-slate-950/20">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
           <div className="flex items-center gap-2">
             <Building2 className="w-5 h-5 text-amber-400" />
             <h2 className="text-sm font-bold text-white uppercase tracking-wider">
-              Target Property Inquired By Client
+              Current property context
             </h2>
           </div>
           <span className="text-xs text-slate-400">
-            Switch property to test how the AI knows every detail
+            Choose a listing to update the active conversation
           </span>
         </div>
 
@@ -268,11 +273,11 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
                 className="w-full h-16 rounded-lg object-cover mb-1.5"
               />
               <div>
-                <p className="text-[11px] font-bold text-white truncate">{prop.title}</p>
-                <p className="text-[10px] font-extrabold text-amber-300">
+                <p className="text-xs font-bold text-white truncate">{prop.title}</p>
+                <p className="text-xs font-extrabold text-amber-300">
                   ${prop.price.toLocaleString()}
                 </p>
-                <p className="text-[9px] text-slate-400">
+                <p className="text-[11px] text-slate-400">
                   {prop.bedrooms}B • {prop.sqft} sqft
                 </p>
               </div>
@@ -282,9 +287,9 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
       </div>
 
       {/* Main Layout: Chat Window + Real-time AI Intelligence Inspector */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-6 items-start">
         {/* Left 2 Cols: Client Chatbot Window */}
-        <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col shadow-xl overflow-hidden min-h-[640px]">
+        <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col shadow-xl shadow-slate-950/30 overflow-hidden min-h-[min(640px,calc(100dvh-11rem))] lg:h-[calc(100dvh-10rem)] lg:min-h-[640px]">
           {/* Chat Header */}
           <div className="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -348,7 +353,7 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
           </div>
 
           {/* Chat Messages Body */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-slate-950/20">
+          <div ref={messagesPaneRef} className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-slate-950/20">
             {messages.map((msg) => {
               const isAi = msg.sender === 'ai';
               return (
@@ -437,7 +442,6 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
               </div>
             )}
 
-            <div ref={messagesEndRef} />
           </div>
 
           {/* Input Box */}
@@ -469,7 +473,7 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
         </div>
 
         {/* Right 1 Col: Real-Time AI Intelligence Inspector */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-5 flex flex-col justify-between">
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl shadow-slate-950/30 space-y-5 flex flex-col justify-between lg:min-h-[640px]">
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <div className="flex items-center gap-2">

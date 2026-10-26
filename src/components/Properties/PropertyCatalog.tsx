@@ -39,9 +39,9 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {/* Header */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 lg:p-6 shadow-lg shadow-slate-950/20 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-white flex items-center gap-2">
             <Building2 className="w-6 h-6 text-amber-400" />
@@ -53,7 +53,7 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
         </div>
 
         {/* Filter by property type */}
-        <div className="flex items-center gap-1.5 overflow-x-auto text-xs">
+        <div className="relative flex items-center gap-1.5 overflow-x-auto pr-8 text-xs scrollbar-none after:content-[''] after:pointer-events-none after:sticky after:right-0 after:top-0 after:h-8 after:w-7 after:-ml-7 after:bg-gradient-to-l after:from-slate-900 after:to-transparent">
           {(['All', 'Penthouse', 'Villa', 'Modern Loft', 'Apartment'] as const).map((type) => (
             <button
               key={type}
@@ -71,7 +71,7 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
       </div>
 
       {/* Property Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {filtered.map((prop) => (
           <div
             key={prop.id}
@@ -169,8 +169,8 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
 
       {/* Full Spec Sheet Modal */}
       {selectedProperty && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden my-auto animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl sm:rounded-3xl w-full max-w-2xl max-h-[calc(100dvh-1.5rem)] sm:max-h-[calc(100dvh-2.5rem)] shadow-2xl overflow-hidden my-auto animate-in fade-in duration-200">
             <div className="relative aspect-[16/9] w-full">
               <img
                 src={selectedProperty.imageUrl}
@@ -188,7 +188,7 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
               </div>
             </div>
 
-            <div className="p-6 space-y-5 max-h-[60vh] overflow-y-auto">
+            <div className="p-4 sm:p-6 space-y-5 max-h-[calc(100dvh-8rem)] overflow-y-auto">
               <div>
                 <h2 className="text-xl font-bold text-white">{selectedProperty.title}</h2>
                 <p className="text-xs text-slate-400 mt-0.5">{selectedProperty.address}</p>

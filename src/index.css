@@ -1,1 +1,46 @@
 @import "tailwindcss";
+
+@layer base {
+  html {
+    background: #020617;
+    color-scheme: dark;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100dvh;
+    background:
+      radial-gradient(circle at 80% -10%, rgb(245 158 11 / 0.07), transparent 27rem),
+      #020617;
+  }
+
+  *, ::before, ::after {
+    box-sizing: border-box;
+  }
+
+  button, a, select, input, textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid rgb(251 191 36);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* Slate 500 is too dim for small operational labels on this dark canvas. */
+  .text-slate-500 {
+    color: rgb(148 163 184);
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

@@ -89,9 +89,9 @@ export const ViewingScheduler: React.FC<ViewingSchedulerProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {/* Top Header & Stats */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 lg:p-6 shadow-lg shadow-slate-950/20">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-xl font-bold text-white flex items-center gap-2">
@@ -134,7 +134,7 @@ export const ViewingScheduler: React.FC<ViewingSchedulerProps> = ({
       </div>
 
       {/* Grid of Scheduled Slots */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {filteredAppointments.length === 0 ? (
           <div className="col-span-full py-16 text-center bg-slate-900 border border-dashed border-slate-800 rounded-2xl text-slate-500 text-sm">
             No appointments found under this filter.
@@ -230,8 +230,8 @@ export const ViewingScheduler: React.FC<ViewingSchedulerProps> = ({
 
       {/* Schedule / Suggest New Slot Modal */}
       {isSlotModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden my-auto animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl sm:rounded-3xl w-full max-w-lg max-h-[calc(100dvh-1.5rem)] sm:max-h-[calc(100dvh-2.5rem)] shadow-2xl overflow-hidden my-auto animate-in fade-in duration-200 flex flex-col">
             <div className="p-5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <CalendarCheck className="w-5 h-5 text-amber-400" />
@@ -245,7 +245,7 @@ export const ViewingScheduler: React.FC<ViewingSchedulerProps> = ({
               </button>
             </div>
 
-            <form onSubmit={handleCreateAppointment} className="p-5 space-y-4 text-xs">
+            <form onSubmit={handleCreateAppointment} className="p-4 sm:p-5 space-y-4 text-xs overflow-y-auto">
               <div>
                 <label className="block font-semibold text-slate-300 mb-1">Select Client *</label>
                 <select
@@ -276,7 +276,7 @@ export const ViewingScheduler: React.FC<ViewingSchedulerProps> = ({
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-semibold text-slate-300 mb-1">Tour Date *</label>
                   <input
@@ -303,7 +303,7 @@ export const ViewingScheduler: React.FC<ViewingSchedulerProps> = ({
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-semibold text-slate-300 mb-1">Showing Format</label>
                   <select

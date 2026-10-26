@@ -128,9 +128,9 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {/* Header */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 lg:p-6 shadow-lg shadow-slate-950/20">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-xl font-bold text-white flex items-center gap-2">
@@ -191,9 +191,9 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
       </div>
 
       {/* Main 2-Column Studio: Composer on Left, Feed on Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6 items-start">
         {/* Left: AI Follow-up Studio */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl shadow-slate-950/30 space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-800">
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-amber-400" />
@@ -360,7 +360,7 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
         </div>
 
         {/* Right: Live Follow-Up Activity Feed */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col">
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl shadow-slate-950/30 flex flex-col">
           <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-amber-400" />

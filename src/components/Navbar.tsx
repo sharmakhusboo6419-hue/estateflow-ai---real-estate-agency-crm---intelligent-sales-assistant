@@ -50,12 +50,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   ).length;
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-900 border-b border-slate-800 text-white shadow-xl">
+    <header className="sticky top-0 z-40 bg-slate-900/95 border-b border-slate-800/90 text-white shadow-xl shadow-slate-950/30 backdrop-blur-xl">
       {/* Top Banner with Agency Stats & Real-time AI Badge */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-[90rem] mx-auto px-3 sm:px-5 lg:px-8">
+        <div className="flex items-center justify-between gap-3 min-h-16 py-2">
           {/* Logo & Agency Brand */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 shrink-0 min-w-0">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-amber-500/20">
               <Building2 className="w-5 h-5 text-white" />
             </div>
@@ -75,25 +75,25 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Quick Metrics & Simulated Inbound Trigger */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-end gap-2 min-w-0 overflow-x-auto scrollbar-none py-0.5">
             {/* Live Lead Temperature Tally */}
-            <div className="hidden md:flex items-center gap-1.5 bg-slate-800/80 border border-slate-700/60 rounded-lg p-1 text-xs">
-              <span className="flex items-center gap-1 px-2 py-1 rounded bg-rose-500/20 text-rose-300 font-semibold border border-rose-500/30">
+            <div className="hidden 2xl:flex items-center gap-1.5 text-xs text-slate-400">
+              <span className="flex items-center gap-1 px-1.5 py-1 text-rose-300 font-semibold">
                 <Flame className="w-3.5 h-3.5 text-rose-400" />
                 Hot ({hotCount})
               </span>
-              <span className="flex items-center gap-1 px-2 py-1 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30">
+              <span className="flex items-center gap-1 px-1.5 py-1 text-amber-300 font-semibold">
                 <Sun className="w-3.5 h-3.5 text-amber-400" />
                 Warm ({warmCount})
               </span>
-              <span className="flex items-center gap-1 px-2 py-1 rounded bg-sky-500/20 text-sky-300 font-semibold border border-sky-500/30">
+              <span className="flex items-center gap-1 px-1.5 py-1 text-sky-300 font-semibold">
                 <Snowflake className="w-3.5 h-3.5 text-sky-400" />
                 Cold ({coldCount})
               </span>
               {staleCount > 0 && (
                 <button
                   onClick={() => setActiveTab('crm')}
-                  className="flex items-center gap-1 px-2 py-1 rounded bg-amber-500/25 hover:bg-amber-500/35 text-amber-300 font-bold border border-amber-500/40 animate-pulse transition cursor-pointer"
+                  className="flex items-center gap-1 px-1.5 py-1 text-amber-300 font-bold hover:text-amber-200 animate-pulse transition cursor-pointer"
                   title="Stale leads requiring agent contact (> 7 days inactive)"
                 >
                   <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
@@ -103,7 +103,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
 
             {/* AI Engine Status Indicator */}
-            <div className="flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+            <div className="hidden md:flex items-center gap-1.5 text-xs px-1.5 py-1 text-slate-300">
               <Bot className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
               <span className="hidden lg:inline">
                 {hasGeminiKey ? 'Gemini 3.8 Flash' : 'AI Sales Assistant Active'}
@@ -112,7 +112,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Cloud Firestore Status Badge */}
             <div
-              className="hidden lg:flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300"
+              className="hidden 2xl:flex items-center gap-1.5 text-xs px-1.5 py-1 text-slate-400"
               title="Persistent Cloud Firestore Active (radiant-rarity-wln7n / asia-southeast1)"
             >
               <Database className="w-3.5 h-3.5 text-amber-400" />
@@ -122,7 +122,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Google Authentication Control */}
             {currentUser ? (
-              <div className="flex items-center gap-2 bg-slate-800/90 border border-slate-700/80 rounded-lg px-2.5 py-1 text-xs">
+              <div className="flex items-center gap-2 px-1.5 py-1 text-xs">
                 {currentUser.photoURL ? (
                   <img
                     src={currentUser.photoURL}
@@ -151,7 +151,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             ) : (
               <button
                 onClick={() => signInWithGoogle()}
-                className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 transition cursor-pointer"
+                className="flex items-center gap-1.5 text-xs font-semibold px-2 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition cursor-pointer"
                 title="Sign in with Google to sync CRM leads & calendar to Firebase Firestore in real-time"
               >
                 <LogIn className="w-3.5 h-3.5 text-emerald-400" />
@@ -162,7 +162,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Mock Webhook Trigger Button */}
             <button
               onClick={onOpenWebhookSimulator}
-              className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 shadow-sm transition-all cursor-pointer"
+              className="flex items-center gap-1.5 text-xs font-semibold px-2 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
               title="Mock an incoming SMS or WhatsApp webhook event to trigger the AI lead qualification flow"
             >
               <Webhook className="w-3.5 h-3.5 text-indigo-400" />
@@ -174,7 +174,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <a
               href="/api/download-zip"
               download="estateflow-ai-crm.zip"
-              className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer"
+              className="hidden 2xl:flex items-center gap-1.5 text-xs font-semibold px-2 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition cursor-pointer"
               title="Download clean project zip file to push to GitHub"
             >
               <Download className="w-3.5 h-3.5 text-amber-400" />
@@ -195,7 +195,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-1 overflow-x-auto py-1 border-t border-slate-800/80 scrollbar-none">
+        <nav aria-label="Primary navigation" className="relative flex items-center gap-1 overflow-x-auto py-2 pr-9 border-t border-slate-800/80 scrollbar-none after:content-[''] after:pointer-events-none after:sticky after:right-0 after:top-0 after:h-9 after:w-8 after:-ml-8 after:bg-gradient-to-l after:from-slate-900 after:to-transparent">
           <button
             onClick={() => setActiveTab('crm')}
             className={`flex items-center gap-2 px-3 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all cursor-pointer whitespace-nowrap ${
@@ -268,7 +268,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <HelpCircle className="w-4 h-4 text-indigo-400" />
             How It Works & System Tour
           </button>
-        </div>
+        </nav>
       </div>
     </header>
   );

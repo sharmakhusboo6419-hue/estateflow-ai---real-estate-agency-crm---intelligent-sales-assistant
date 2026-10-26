@@ -71,6 +71,11 @@ export default function App() {
   const [hasGeminiKey, setHasGeminiKey] = useState(true);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  // Each workspace should open at its contextual heading, especially on mobile.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [activeTab]);
+
   // Sync to local storage
   useEffect(() => {
     localStorage.setItem('estateflow_leads', JSON.stringify(leads));
@@ -463,7 +468,7 @@ Reply with your preferred slot and we will confirm it on your calendar instantly
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-amber-500 selection:text-slate-950">
+    <div className="min-h-[100dvh] bg-slate-950/80 text-slate-100 flex flex-col font-sans selection:bg-amber-500 selection:text-slate-950">
       {/* Navigation Header */}
       <Navbar
         activeTab={activeTab}
@@ -476,8 +481,8 @@ Reply with your preferred slot and we will confirm it on your calendar instantly
 
       {/* Toast Notification Banner */}
       {toastMessage && (
-        <div className="fixed top-20 right-5 z-50 animate-in slide-in-from-top duration-300">
-          <div className="bg-slate-900 border border-amber-500/50 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold">
+        <div className="fixed top-[5.5rem] right-3 sm:right-5 z-[60] w-[calc(100%-1.5rem)] sm:w-auto animate-in slide-in-from-top duration-300">
+          <div className="bg-slate-900/95 border border-amber-500/50 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-start gap-2.5 text-xs font-semibold backdrop-blur-md">
             <Sparkles className="w-4 h-4 text-amber-400" />
             <span>{toastMessage}</span>
           </div>
@@ -485,7 +490,7 @@ Reply with your preferred slot and we will confirm it on your calendar instantly
       )}
 
       {/* Main View Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className="flex-1 max-w-[90rem] w-full mx-auto px-3 sm:px-5 lg:px-8 py-5 sm:py-7 lg:py-8">
         {activeTab === 'crm' && (
           <LeadsPipeline
             leads={leads}

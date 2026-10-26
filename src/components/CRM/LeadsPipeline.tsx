@@ -84,23 +84,23 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
     switch (temp) {
       case 'Hot':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm shadow-rose-500/10">
+          <span className="inline-flex items-center gap-1 text-xs font-bold text-rose-300">
             <Flame className="w-3.5 h-3.5 text-rose-400" />
-            HOT • High Budget
+            Hot lead
           </span>
         );
       case 'Warm':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm shadow-amber-500/10">
+          <span className="inline-flex items-center gap-1 text-xs font-bold text-amber-300">
             <Sun className="w-3.5 h-3.5 text-amber-400" />
-            WARM • Mid Range
+            Warm lead
           </span>
         );
       case 'Cold':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-sm shadow-sky-500/10">
+          <span className="inline-flex items-center gap-1 text-xs font-bold text-sky-300">
             <Snowflake className="w-3.5 h-3.5 text-sky-400" />
-            COLD • Nurture
+            Cold lead
           </span>
         );
     }
@@ -165,9 +165,9 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {/* Header & Controls */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 lg:p-6 shadow-lg shadow-slate-950/20">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-xl font-bold text-white flex items-center gap-2">
@@ -359,13 +359,13 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
 
       {/* Kanban Board View */}
       {viewMode === 'kanban' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 overflow-x-auto pb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 overflow-x-auto pb-3 sm:pb-4 lg:[grid-template-columns:repeat(5,minmax(16.5rem,1fr))]">
           {STAGES.map((stage) => {
             const stageLeads = filteredLeads.filter((l) => l.stage === stage);
             return (
               <div
                 key={stage}
-                className="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-3.5 flex flex-col min-w-[270px] shadow-sm"
+                className="bg-slate-900/70 border border-slate-800/70 rounded-2xl p-4 flex flex-col min-w-[270px] shadow-sm"
               >
                 {/* Column Header */}
                 <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
@@ -375,7 +375,7 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                       {stage}
                     </h3>
                   </div>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-bold border border-slate-700">
+                  <span className="text-xs text-slate-400 font-bold tabular-nums">
                     {stageLeads.length}
                   </span>
                 </div>
@@ -392,7 +392,7 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                       return (
                         <div
                           key={lead.id}
-                          className="bg-slate-950 border border-slate-800 hover:border-slate-700 rounded-xl p-3.5 transition-all shadow-md hover:shadow-lg hover:shadow-black/40 group relative"
+                          className="bg-slate-950/60 border border-slate-800/70 hover:border-slate-700 rounded-xl p-4 transition-all shadow-sm hover:shadow-lg hover:shadow-black/30 group relative"
                         >
                           {/* Top Row: Avatar, Name, Temperature */}
                           <div className="flex items-start justify-between gap-2 mb-2">
@@ -405,11 +405,11 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                               <div>
                                 <h4
                                   onClick={() => onSelectLead(lead)}
-                                  className="text-xs font-bold text-white hover:text-amber-400 cursor-pointer transition line-clamp-1"
+                                  className="text-sm font-bold text-white hover:text-amber-400 cursor-pointer transition line-clamp-1"
                                 >
                                   {lead.name}
                                 </h4>
-                                <span className="text-[11px] text-slate-400 block">
+                                <span className="text-xs text-slate-400 block">
                                   {lead.phone}
                                 </span>
                               </div>
@@ -420,7 +420,7 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                           {(lead.isStale ||
                             lead.tags?.includes('Needs Attention') ||
                             (lead.daysSinceLastContact !== undefined && lead.daysSinceLastContact > 7)) && (
-                            <div className="mb-2 p-1.5 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-300 text-[10px] font-bold flex items-center justify-between animate-in fade-in">
+                            <div className="mb-3 py-2 border-y border-amber-500/25 text-amber-300 text-xs font-bold flex items-center justify-between gap-2 animate-in fade-in">
                               <span className="flex items-center gap-1">
                                 <AlertTriangle className="w-3 h-3 text-amber-400 animate-pulse flex-shrink-0" />
                                 Needs Attention ({lead.daysSinceLastContact ? `${lead.daysSinceLastContact}d inactive` : '>7d'})
@@ -431,7 +431,7 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                                     e.stopPropagation();
                                     onReengageLead(lead);
                                   }}
-                                  className="px-1.5 py-0.5 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-[9px] transition cursor-pointer"
+                                  className="min-h-8 px-2 rounded-md bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition cursor-pointer"
                                   title="Mark contacted and resolve Needs Attention alert"
                                 >
                                   Re-engage
@@ -441,28 +441,28 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                           )}
 
                           {/* Temperature Badge */}
-                          <div className="mb-2.5">{getTemperatureBadge(lead.temperature)}</div>
+                          <div className="mb-3">{getTemperatureBadge(lead.temperature)}</div>
 
                           {/* Budget & Timeline */}
-                          <div className="bg-slate-900/80 rounded-lg p-2 mb-2.5 border border-slate-800/80 space-y-1 text-[11px]">
-                            <div className="flex items-center justify-between text-slate-300">
+                          <div className="mb-3 space-y-2 text-[13px]">
+                            <div className="flex items-center justify-between gap-3 text-slate-300">
                               <span className="text-slate-400 flex items-center gap-1">
-                                <DollarSign className="w-3 h-3 text-emerald-400" /> Budget:
+                                <DollarSign className="w-3.5 h-3.5 text-emerald-400" /> Budget
                               </span>
                               <span className="font-bold text-emerald-300">
                                 ${lead.budget.toLocaleString()}
                               </span>
                             </div>
-                            <div className="flex items-center justify-between text-slate-300">
+                            <div className="flex items-center justify-between gap-3 text-slate-300">
                               <span className="text-slate-400 flex items-center gap-1">
-                                <Clock className="w-3 h-3 text-amber-400" /> Timeline:
+                                <Clock className="w-3.5 h-3.5 text-amber-400" /> Timeline
                               </span>
-                              <span className="text-slate-300 font-medium truncate max-w-[130px]">
+                              <span className="text-slate-300 font-medium text-right line-clamp-2">
                                 {lead.timeline}
                               </span>
                             </div>
                             {lead.preApproved && (
-                              <div className="flex items-center gap-1 text-[10px] text-emerald-400 font-medium pt-0.5">
+                              <div className="flex items-center gap-1 text-xs text-emerald-400 font-medium pt-0.5">
                                 <ShieldCheck className="w-3 h-3" /> Pre-approved Mortgage
                               </div>
                             )}
@@ -470,33 +470,21 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
 
                           {/* Property of Interest */}
                           {prop && (
-                            <div className="flex items-center gap-2 p-1.5 rounded-lg bg-slate-900/50 border border-slate-800 mb-2.5">
-                              <img
-                                src={prop.imageUrl}
-                                alt={prop.title}
-                                className="w-7 h-7 rounded-md object-cover flex-shrink-0"
-                              />
-                              <div className="min-w-0">
-                                <p className="text-[10px] font-semibold text-slate-200 truncate">
-                                  {prop.title}
-                                </p>
-                                <p className="text-[10px] text-amber-300 font-bold">
-                                  ${prop.price.toLocaleString()}
-                                </p>
-                              </div>
+                            <div className="flex items-baseline justify-between gap-3 pb-3 mb-3 border-b border-slate-800/80">
+                              <p className="min-w-0 text-[13px] font-medium text-slate-300 truncate">
+                                {prop.title}
+                              </p>
+                              <p className="shrink-0 text-[13px] text-amber-300 font-bold">
+                                ${prop.price.toLocaleString()}
+                              </p>
                             </div>
                           )}
 
-                          {/* AI Rationale Summary Snippet */}
-                          <p className="text-[11px] text-slate-400 line-clamp-2 italic mb-3 bg-slate-900/40 p-1.5 rounded border-l-2 border-amber-500/60">
-                            "{lead.aiSummary}"
-                          </p>
-
                           {/* Action Buttons */}
-                          <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
+                          <div className="flex items-center justify-between gap-2 pt-3 border-t border-slate-800/80">
                             <button
                               onClick={() => onStartChatWithLead(lead)}
-                              className="flex items-center gap-1 text-[11px] font-medium text-amber-400 hover:text-amber-300 transition cursor-pointer"
+                              className="min-h-11 flex items-center gap-1 text-[13px] font-medium text-amber-400 hover:text-amber-300 transition cursor-pointer"
                             >
                               <MessageSquare className="w-3 h-3" />
                               AI Chat
@@ -504,7 +492,7 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
 
                             <button
                               onClick={() => onSelectLead(lead)}
-                              className="flex items-center gap-1 text-[11px] font-medium text-slate-300 hover:text-white transition cursor-pointer"
+                              className="min-h-11 flex items-center gap-1 text-[13px] font-medium text-slate-300 hover:text-white transition cursor-pointer"
                             >
                               Dossier
                               <ChevronRight className="w-3 h-3" />
@@ -512,7 +500,7 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                           </div>
 
                           {/* Quick Stage Shifter */}
-                          <div className="mt-2 pt-1 flex items-center justify-end gap-1">
+                          <div className="mt-1 flex items-center justify-end gap-1">
                             {stage !== 'Closed Won' && (
                               <button
                                 onClick={() => {
@@ -521,7 +509,7 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                                     onUpdateLeadStage(lead.id, STAGES[nextIdx]);
                                   }
                                 }}
-                                className="text-[10px] text-slate-400 hover:text-amber-300 flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 hover:border-slate-700 cursor-pointer"
+                                className="min-h-9 text-xs text-slate-400 hover:text-amber-300 flex items-center gap-0.5 px-1.5 py-1 rounded hover:bg-slate-900 cursor-pointer"
                                 title="Move to next stage"
                               >
                                 Advance Stage <ArrowRight className="w-2.5 h-2.5" />
