@@ -1,0 +1,110 @@
+{
+  "entities": {
+    "Lead": {
+      "title": "Lead",
+      "description": "Real estate CRM lead profile with budget categorization and stale tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "avatar": { "type": "string", "maxLength": 500 },
+        "budget": { "type": "number" },
+        "temperature": { "type": "string", "enum": ["Hot", "Warm", "Cold"] },
+        "stage": { "type": "string", "enum": ["New Lead", "AI Engaged", "Viewing Scheduled", "Offer & Negotiation", "Closed Won"] },
+        "timeline": { "type": "string", "maxLength": 100 },
+        "preferredLocation": { "type": "string", "maxLength": 100 },
+        "preferredPropertyType": { "type": "string", "maxLength": 100 },
+        "interestedPropertyId": { "type": "string", "maxLength": 100 },
+        "preApproved": { "type": "boolean" },
+        "aiScore": { "type": "number" },
+        "aiSummary": { "type": "string", "maxLength": 2000 },
+        "temperatureRationale": { "type": "string", "maxLength": 1000 },
+        "lastContactAt": { "type": "string", "maxLength": 100 },
+        "lastContactDate": { "type": "string", "maxLength": 100 },
+        "daysSinceLastContact": { "type": "number" },
+        "isStale": { "type": "boolean" },
+        "unreadCount": { "type": "number" },
+        "assignedAgent": { "type": "string", "maxLength": 100 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["id", "name", "budget", "temperature", "stage", "userId"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Property viewing scheduled with buyer and host broker",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "leadId": { "type": "string", "maxLength": 128 },
+        "leadName": { "type": "string", "maxLength": 100 },
+        "leadPhone": { "type": "string", "maxLength": 30 },
+        "propertyId": { "type": "string", "maxLength": 100 },
+        "propertyTitle": { "type": "string", "maxLength": 200 },
+        "propertyAddress": { "type": "string", "maxLength": 200 },
+        "date": { "type": "string", "maxLength": 50 },
+        "time": { "type": "string", "maxLength": 50 },
+        "agentName": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["Scheduled", "Completed", "Cancelled"] },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "suggestedByAI": { "type": "boolean" },
+        "userId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["id", "leadId", "propertyId", "date", "time", "status", "userId"]
+    },
+    "FollowUp": {
+      "title": "FollowUp",
+      "description": "AI multi-channel follow-up dispatched or scheduled for a client",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "leadId": { "type": "string", "maxLength": 128 },
+        "leadName": { "type": "string", "maxLength": 100 },
+        "leadTemperature": { "type": "string", "enum": ["Hot", "Warm", "Cold"] },
+        "propertyTitle": { "type": "string", "maxLength": 200 },
+        "channel": { "type": "string", "enum": ["WhatsApp", "SMS", "Email"] },
+        "message": { "type": "string", "maxLength": 2000 },
+        "status": { "type": "string", "enum": ["Sent", "Scheduled"] },
+        "sentAt": { "type": "string", "maxLength": 100 },
+        "goal": { "type": "string", "maxLength": 500 },
+        "userId": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "leadId", "channel", "message", "status", "userId"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Agency agent/admin user profile",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 120 },
+        "photoURL": { "type": "string", "maxLength": 500 },
+        "agencyName": { "type": "string", "maxLength": 100 },
+        "role": { "type": "string", "enum": ["agent", "admin"] }
+      },
+      "required": ["uid", "email"]
+    }
+  },
+  "firestore": {
+    "/leads/{leadId}": {
+      "schema": "Lead",
+      "description": "Collection of CRM leads managed by agency agents"
+    },
+    "/appointments/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Collection of scheduled property viewing appointments"
+    },
+    "/followups/{followupId}": {
+      "schema": "FollowUp",
+      "description": "Collection of automated AI follow-ups and messages"
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Collection of registered agency team members"
+    }
+  }
+}

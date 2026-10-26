@@ -1,0 +1,6 @@
+{
+  "name": "EstateFlow AI - Real Estate Agency CRM & Intelligent Sales Assistant",
+  "description": "AI property sales assistant, automated lead qualification & temperature tiering (Cold/Warm/Hot), instant tour appointment booking, and smart multi-channel follow-ups for real estate agencies.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

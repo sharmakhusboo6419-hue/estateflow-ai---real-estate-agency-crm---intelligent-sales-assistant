@@ -1,0 +1,126 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'sharmakhusboo924@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Lead Validation
+    function isValidLead(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.budget is number && data.budget >= 0 &&
+             data.temperature in ['Hot', 'Warm', 'Cold'] &&
+             data.stage in ['New Lead', 'AI Engaged', 'Viewing Scheduled', 'Offer & Negotiation', 'Closed Won'] &&
+             data.userId is string && data.userId == request.auth.uid;
+    }
+
+    match /leads/{leadId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidId(leadId) &&
+                    isValidLead(incoming()) &&
+                    incoming().userId == request.auth.uid;
+      allow update: if isSignedIn() && isValidId(leadId) &&
+                    isValidLead(incoming()) &&
+                    (existing().userId == request.auth.uid || isAdmin()) &&
+                    incoming().userId == existing().userId;
+      allow delete: if isSignedIn() && isValidId(leadId) &&
+                    (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    // Appointment Validation
+    function isValidAppointment(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.leadId is string && data.leadId.size() <= 128 &&
+             data.propertyId is string && data.propertyId.size() <= 100 &&
+             data.date is string && data.date.size() <= 50 &&
+             data.time is string && data.time.size() <= 50 &&
+             data.status in ['Scheduled', 'Completed', 'Cancelled'] &&
+             data.userId is string && data.userId == request.auth.uid;
+    }
+
+    match /appointments/{appointmentId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidId(appointmentId) &&
+                    isValidAppointment(incoming()) &&
+                    incoming().userId == request.auth.uid;
+      allow update: if isSignedIn() && isValidId(appointmentId) &&
+                    isValidAppointment(incoming()) &&
+                    (existing().userId == request.auth.uid || isAdmin()) &&
+                    incoming().userId == existing().userId;
+      allow delete: if isSignedIn() && isValidId(appointmentId) &&
+                    (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    // FollowUp Validation
+    function isValidFollowUp(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.leadId is string && data.leadId.size() <= 128 &&
+             data.channel in ['WhatsApp', 'SMS', 'Email'] &&
+             data.message is string && data.message.size() <= 2000 &&
+             data.status in ['Sent', 'Scheduled'] &&
+             data.userId is string && data.userId == request.auth.uid;
+    }
+
+    match /followups/{followupId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidId(followupId) &&
+                    isValidFollowUp(incoming()) &&
+                    incoming().userId == request.auth.uid;
+      allow update: if isSignedIn() && isValidId(followupId) &&
+                    isValidFollowUp(incoming()) &&
+                    (existing().userId == request.auth.uid || isAdmin()) &&
+                    incoming().userId == existing().userId;
+      allow delete: if isSignedIn() && isValidId(followupId) &&
+                    (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    // UserProfile Validation
+    function isValidUserProfile(data) {
+      return data.uid is string && data.uid == request.auth.uid &&
+             data.email is string && data.email.size() <= 120;
+    }
+
+    match /users/{userId} {
+      allow get: if isSignedIn() && (userId == request.auth.uid || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isSignedIn() && isValidId(userId) && userId == request.auth.uid &&
+                    isValidUserProfile(incoming());
+      allow update: if isSignedIn() && isValidId(userId) && (userId == request.auth.uid || isAdmin()) &&
+                    isValidUserProfile(incoming()) && incoming().uid == existing().uid;
+      allow delete: if isAdmin();
+    }
+  }
+}
