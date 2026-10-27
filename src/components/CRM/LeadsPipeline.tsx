@@ -217,9 +217,9 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
   };
 
   return (
-    <div className="space-y-4 animate-in fade-in duration-150">
+    <div className="flex flex-col gap-4 animate-in fade-in duration-150" style={{ height: 'calc(100dvh - 5.5rem)' }}>
       {/* 1. Compact 1-Row Real-Time Metric Ribbon */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 shrink-0">
         <div className="surface-card rounded-lg px-3.5 py-2.5 flex items-center justify-between">
           <div>
             <span className="text-[10px] uppercase font-mono tracking-wider text-zinc-500 block">
@@ -274,7 +274,7 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
       </div>
 
       {/* 2. Unified Toolbar (Filters + Search + Actions) */}
-      <div className="surface-card rounded-lg p-2.5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
+      <div className="surface-card rounded-lg p-2.5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5 shrink-0">
         {/* Left: Temperature Filters */}
         <div className="flex flex-wrap items-center gap-1">
           <button
@@ -417,7 +417,7 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
 
       {/* 3. Kanban Board View */}
       {viewMode === 'kanban' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 overflow-x-auto pb-4 lg:[grid-template-columns:repeat(5,minmax(17rem,1fr))]">
+        <div className="flex-1 min-h-0 flex gap-3 overflow-x-auto pb-2">
           {STAGES.map((stage) => {
             const stageLeads = filteredLeads.filter((l) => l.stage === stage);
             const stageValue = stageLeads.reduce((acc, curr) => acc + (curr.budget || 0), 0);
@@ -426,10 +426,10 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
             return (
               <div
                 key={stage}
-                className="surface-card rounded-lg p-3 flex flex-col min-w-[260px]"
+                className="surface-card rounded-lg p-3 flex flex-col w-72 shrink-0 min-h-0"
               >
                 {/* Column Header */}
-                <div className="flex items-center justify-between pb-2.5 border-b border-white/[0.06] mb-2.5">
+                <div className="flex items-center justify-between pb-2.5 border-b border-white/[0.06] mb-2.5 shrink-0">
                   <div className="flex items-center gap-2">
                     <span className={`w-2 h-2 rounded-full ${dotColor}`} />
                     <h3 className="font-semibold text-xs tracking-tight text-zinc-200">
@@ -447,7 +447,7 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                 </div>
 
                 {/* Cards Container */}
-                <div className="space-y-2.5 flex-1 overflow-y-auto max-h-[calc(100dvh-17rem)] pr-0.5 scrollbar-none">
+                <div className="flex-1 min-h-0 overflow-y-auto space-y-2.5 pr-0.5 scrollbar-none">
                   {stageLeads.length === 0 ? (
                     <div className="text-center py-8 px-2 border border-dashed border-white/[0.06] rounded text-zinc-500 text-[11px]">
                       No prospects in {stage}
@@ -573,7 +573,7 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
 
       {/* 4. Table View */}
       {viewMode === 'table' && (
-        <div className="surface-card rounded-lg overflow-hidden">
+        <div className="flex-1 min-h-0 overflow-y-auto surface-card rounded-lg">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs text-zinc-300">
               <thead className="bg-zinc-950/80 text-zinc-400 uppercase tracking-wider text-[10px] border-b border-white/[0.06]">
