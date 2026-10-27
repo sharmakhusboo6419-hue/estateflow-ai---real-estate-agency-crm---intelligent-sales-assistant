@@ -40,7 +40,7 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
   });
 
   const handleGeneratePitch = (prop: Property) => {
-    const pitch = `🏡 NEW EXCLUSIVE LISTING: ${prop.title} in ${prop.location}!\n\nListed at $${prop.price.toLocaleString()} • ${prop.bedrooms} Beds • ${prop.bathrooms} Baths • ${prop.sqft.toLocaleString()} sq ft\n\nHighlights:\n${prop.features.slice(0, 3).map((f) => `✨ ${f}`).join('\n')}\n\nPrivate showings now booking through EstateFlow AI. Direct message us or tap the link in bio to reserve your timing slot before this weekend's open house!`;
+    const pitch = `Exclusive Listing: ${prop.title} in ${prop.location}.\n\nOffered at $${prop.price.toLocaleString()} • ${prop.bedrooms} Beds • ${prop.bathrooms} Baths • ${prop.sqft.toLocaleString()} sq ft\n\nKey Highlights:\n${prop.features.slice(0, 3).map((f) => `• ${f}`).join('\n')}\n\nPrivate tours and architectural dossiers available through EstateFlow. Inquire to reserve an appointment slot.`;
     setGeneratedPitch(pitch);
     setCopiedPitch(false);
   };
@@ -53,33 +53,31 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
   };
 
   return (
-    <div className="space-y-5 sm:space-y-6 animate-in fade-in duration-300">
+    <div className="space-y-6 animate-in fade-in duration-200">
       {/* Header */}
-      <div className="bg-slate-900/95 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xl backdrop-blur-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="surface-card rounded-xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center">
-              <Building2 className="w-5 h-5 text-amber-400" />
-            </div>
-            <h1 className="text-lg sm:text-xl font-black text-white tracking-tight">
-              Agency Property Portfolio & AI Knowledge Base
+          <div className="flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-[#dfc195]" />
+            <h1 className="text-base sm:text-lg font-bold text-white tracking-tight">
+              Agency Property Portfolio
             </h1>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
-            Every blueprint, HOA fee breakdown, outdoor terrace spec, and photo is indexed into the AI engine for instant client responses.
+          <p className="text-xs text-zinc-400 mt-1">
+            Complete architectural dossiers, HOA fee schedules, outdoor specifications, and verified viewing slots.
           </p>
         </div>
 
         {/* Filter by property type */}
-        <div className="flex items-center gap-1.5 overflow-x-auto text-xs scrollbar-none">
+        <div className="flex items-center gap-1 overflow-x-auto text-xs scrollbar-none">
           {(['All', 'Penthouse', 'Villa', 'Modern Loft', 'Apartment'] as const).map((type) => (
             <button
               key={type}
               onClick={() => setFilterType(type)}
-              className={`px-3 py-1.5 rounded-xl font-bold transition cursor-pointer whitespace-nowrap ${
+              className={`px-2.5 py-1 rounded-md font-medium transition cursor-pointer whitespace-nowrap text-xs ${
                 filterType === type
-                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                  : 'bg-slate-800/80 text-slate-400 hover:text-white hover:bg-slate-700'
+                  ? 'bg-zinc-800 text-white border border-white/[0.1]'
+                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
               }`}
             >
               {type}
@@ -93,74 +91,74 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
         {filtered.map((prop) => (
           <div
             key={prop.id}
-            className="bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 rounded-3xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col justify-between group backdrop-blur-md hover:shadow-black/50"
+            className="surface-card surface-card-hover rounded-xl overflow-hidden flex flex-col justify-between"
           >
             <div>
-              {/* Photo & Price Badge */}
+              {/* Photo & Overlays */}
               <div className="relative aspect-[16/10] overflow-hidden">
                 <img
                   src={prop.imageUrl}
                   alt={prop.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                 />
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-[11px] font-bold text-white border border-slate-700/80 shadow-md">
+                <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-black/75 backdrop-blur-md text-[10px] font-medium text-white border border-white/[0.1]">
                   {prop.propertyType}
                 </div>
-                <div className="absolute top-3 right-3 px-3.5 py-1 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black text-xs shadow-lg shadow-amber-500/25">
+                <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded bg-black/80 backdrop-blur-md text-emerald-400 font-mono font-semibold text-xs border border-white/[0.1]">
                   ${prop.price.toLocaleString()}
                 </div>
-                <div className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded-full bg-emerald-500/90 text-slate-950 font-extrabold text-[10px]">
+                <div className="absolute bottom-2.5 left-2.5 px-2 py-0.5 rounded bg-emerald-500/90 text-zinc-950 font-semibold text-[9px]">
                   {prop.status}
                 </div>
               </div>
 
               {/* Body Info */}
-              <div className="p-5 space-y-3.5">
+              <div className="p-4 space-y-3">
                 <div>
-                  <h3 className="font-extrabold text-white text-base line-clamp-1">{prop.title}</h3>
-                  <p className="text-xs text-slate-400 flex items-center gap-1.5 mt-1">
-                    <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <h3 className="font-semibold text-white text-sm line-clamp-1">{prop.title}</h3>
+                  <p className="text-xs text-zinc-400 flex items-center gap-1.5 mt-0.5">
+                    <MapPin className="w-3 h-3 text-zinc-500 shrink-0" />
                     <span className="truncate">{prop.address}</span>
                   </p>
                 </div>
 
                 {/* Key specs */}
-                <div className="grid grid-cols-3 gap-2 py-2.5 border-y border-slate-800/80 text-center text-xs bg-slate-950/40 rounded-2xl">
+                <div className="grid grid-cols-3 gap-2 py-2 border-y border-white/[0.06] text-center text-xs bg-black/20 rounded-lg">
                   <div>
-                    <span className="text-[10px] text-slate-400 block font-medium">Beds</span>
-                    <span className="font-extrabold text-white text-sm">{prop.bedrooms}</span>
+                    <span className="text-[10px] text-zinc-400 block font-normal">Beds</span>
+                    <span className="font-mono font-semibold text-white text-xs">{prop.bedrooms}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-400 block font-medium">Baths</span>
-                    <span className="font-extrabold text-white text-sm">{prop.bathrooms}</span>
+                    <span className="text-[10px] text-zinc-400 block font-normal">Baths</span>
+                    <span className="font-mono font-semibold text-white text-xs">{prop.bathrooms}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-400 block font-medium">Area</span>
-                    <span className="font-extrabold text-white text-sm">{prop.sqft.toLocaleString()} <span className="text-[10px] font-normal text-slate-400">sqft</span></span>
+                    <span className="text-[10px] text-zinc-400 block font-normal">Area</span>
+                    <span className="font-mono font-semibold text-white text-xs">{prop.sqft.toLocaleString()} <span className="text-[9px] font-normal text-zinc-400">sqft</span></span>
                   </div>
                 </div>
 
                 {/* Financial breakdown */}
-                <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800/80 text-xs space-y-1">
-                  <div className="flex justify-between text-slate-400 text-[11px]">
+                <div className="bg-zinc-950/60 p-2.5 rounded-lg border border-white/[0.06] text-xs space-y-1">
+                  <div className="flex justify-between text-zinc-400 text-[11px]">
                     <span>20% Down Payment:</span>
-                    <span className="text-slate-200 font-bold">
+                    <span className="font-mono text-zinc-200 font-medium">
                       ${prop.downPayment20.toLocaleString()}
                     </span>
                   </div>
-                  <div className="flex justify-between text-slate-400 text-[11px]">
-                    <span>Est. Mortgage + HOA:</span>
-                    <span className="text-emerald-300 font-extrabold">
+                  <div className="flex justify-between text-zinc-400 text-[11px]">
+                    <span>Est. Monthly:</span>
+                    <span className="font-mono text-emerald-400 font-semibold">
                       ~${prop.estMortgageMonthly.toLocaleString()}/mo
                     </span>
                   </div>
                 </div>
 
                 {/* Top Features */}
-                <ul className="text-xs text-slate-300 space-y-1.5">
+                <ul className="text-xs text-zinc-400 space-y-1">
                   {prop.features.slice(0, 2).map((feat, i) => (
-                    <li key={i} className="flex items-start gap-1.5 text-[11px] text-slate-400">
-                      <span className="text-amber-400 font-bold">•</span>
+                    <li key={i} className="flex items-start gap-1.5 text-[11px]">
+                      <span className="text-[#dfc195] font-bold">•</span>
                       <span className="line-clamp-1">{feat}</span>
                     </li>
                   ))}
@@ -169,23 +167,23 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
             </div>
 
             {/* Bottom Action Buttons */}
-            <div className="p-5 pt-0 grid grid-cols-2 gap-2.5">
+            <div className="p-4 pt-0 grid grid-cols-2 gap-2">
               <button
                 onClick={() => {
                   setSelectedProperty(prop);
                   setActiveGalleryIndex(0);
                   setGeneratedPitch(null);
                 }}
-                className="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition cursor-pointer"
+                className="py-2 px-3 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-white/[0.08] font-medium text-xs transition cursor-pointer"
               >
-                View Full Specs
+                Full Specs
               </button>
               <button
                 onClick={() => onSelectPropertyForChat(prop)}
-                className="py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs shadow-md shadow-amber-500/20 transition flex items-center justify-center gap-1.5 cursor-pointer"
+                className="py-2 px-3 rounded-lg bg-[#c8a97e] hover:bg-[#dfc195] text-zinc-950 font-semibold text-xs transition flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
               >
-                <MessageSquare className="w-3.5 h-3.5 stroke-[2.5]" />
-                <span>Test in AI Chat</span>
+                <MessageSquare className="w-3.5 h-3.5 stroke-[2.2]" />
+                <span>Test in Concierge</span>
               </button>
             </div>
           </div>
@@ -194,8 +192,8 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
 
       {/* Full Spec Sheet Modal */}
       {selectedProperty && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl max-h-[calc(100dvh-1.5rem)] shadow-2xl overflow-hidden my-auto animate-in fade-in duration-200 flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm overflow-y-auto">
+          <div className="surface-elevated rounded-xl w-full max-w-2xl max-h-[calc(100dvh-2rem)] shadow-2xl overflow-hidden my-auto animate-in fade-in duration-200 flex flex-col">
             <div className="relative aspect-[16/9] w-full shrink-0">
               <img
                 src={
@@ -208,21 +206,21 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
               />
               <button
                 onClick={() => setSelectedProperty(null)}
-                className="absolute top-3 right-3 p-2 rounded-full bg-slate-950/80 text-white hover:bg-slate-950 transition cursor-pointer"
+                className="absolute top-3 right-3 p-1.5 rounded-full bg-black/70 text-white hover:bg-black transition cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
-              <div className="absolute bottom-3 left-3 px-3.5 py-1.5 rounded-xl bg-slate-950/90 backdrop-blur-md text-amber-300 font-black text-base border border-amber-500/30">
+              <div className="absolute bottom-3 left-3 px-3 py-1 rounded-lg bg-black/80 backdrop-blur-md text-emerald-400 font-mono font-bold text-sm border border-white/[0.1]">
                 ${selectedProperty.price.toLocaleString()}
               </div>
 
               {/* Photo Gallery Selector if Available */}
               {selectedProperty.galleryUrls && selectedProperty.galleryUrls.length > 0 && (
-                <div className="absolute bottom-3 right-3 flex items-center gap-1.5 bg-slate-950/80 p-1 rounded-xl backdrop-blur-md border border-slate-800">
+                <div className="absolute bottom-3 right-3 flex items-center gap-1 bg-black/70 p-1 rounded-lg backdrop-blur-md border border-white/[0.1]">
                   <button
                     onClick={() => setActiveGalleryIndex(0)}
-                    className={`w-8 h-6 rounded-lg overflow-hidden border transition ${
-                      activeGalleryIndex === 0 ? 'border-amber-400 ring-1 ring-amber-400' : 'border-transparent opacity-70'
+                    className={`w-7 h-5 rounded overflow-hidden border transition ${
+                      activeGalleryIndex === 0 ? 'border-[#dfc195]' : 'border-transparent opacity-60'
                     }`}
                   >
                     <img src={selectedProperty.imageUrl} alt="Main" className="w-full h-full object-cover" />
@@ -231,8 +229,8 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
                     <button
                       key={gIdx}
                       onClick={() => setActiveGalleryIndex(gIdx + 1)}
-                      className={`w-8 h-6 rounded-lg overflow-hidden border transition ${
-                        activeGalleryIndex === gIdx + 1 ? 'border-amber-400 ring-1 ring-amber-400' : 'border-transparent opacity-70'
+                      className={`w-7 h-5 rounded overflow-hidden border transition ${
+                        activeGalleryIndex === gIdx + 1 ? 'border-[#dfc195]' : 'border-transparent opacity-60'
                       }`}
                     >
                       <img src={url} alt={`Gallery ${gIdx}`} className="w-full h-full object-cover" />
@@ -242,40 +240,40 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
               )}
             </div>
 
-            <div className="p-5 sm:p-6 space-y-4 max-h-[calc(100dvh-14rem)] overflow-y-auto">
+            <div className="p-4 sm:p-5 space-y-3.5 max-h-[calc(100dvh-16rem)] overflow-y-auto">
               <div>
-                <h2 className="text-xl font-black text-white">{selectedProperty.title}</h2>
-                <p className="text-xs text-slate-400 mt-1 flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-amber-400" />
-                  <span>{selectedProperty.address} • Built in {selectedProperty.yearBuilt}</span>
+                <h2 className="text-base font-bold text-white">{selectedProperty.title}</h2>
+                <p className="text-xs text-zinc-400 mt-0.5 flex items-center gap-1">
+                  <MapPin className="w-3 h-3 text-[#dfc195]" />
+                  <span>{selectedProperty.address} • Built {selectedProperty.yearBuilt}</span>
                 </p>
               </div>
 
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs text-zinc-300 leading-relaxed">
                 {selectedProperty.description}
               </p>
 
               {/* Outdoor & HOA specs */}
-              <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
-                  <span className="text-[10px] font-bold text-slate-400 block mb-0.5">Outdoor Space</span>
-                  <span className="font-semibold text-slate-200">{selectedProperty.outdoorArea}</span>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="p-3 rounded-lg bg-zinc-900/60 border border-white/[0.06]">
+                  <span className="text-[10px] text-zinc-400 block mb-0.5">Outdoor Space</span>
+                  <span className="font-medium text-zinc-200">{selectedProperty.outdoorArea}</span>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
-                  <span className="text-[10px] font-bold text-slate-400 block mb-0.5">HOA Dues & Valet</span>
-                  <span className="font-semibold text-slate-200">${selectedProperty.hoaMonthly}/mo • {selectedProperty.parkingSpaces} Parking Spaces</span>
+                <div className="p-3 rounded-lg bg-zinc-900/60 border border-white/[0.06]">
+                  <span className="text-[10px] text-zinc-400 block mb-0.5">HOA Dues & Parking</span>
+                  <span className="font-medium text-zinc-200">${selectedProperty.hoaMonthly}/mo • {selectedProperty.parkingSpaces} Spaces</span>
                 </div>
               </div>
 
               {/* Features List */}
               <div>
-                <h4 className="text-xs font-black uppercase tracking-wider text-amber-400 mb-2">
-                  Key Architectural Features
+                <h4 className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
+                  Architectural Highlights
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs">
                   {selectedProperty.features.map((feat, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-slate-300">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                    <div key={idx} className="flex items-center gap-1.5 text-zinc-300">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#dfc195] shrink-0" />
                       <span>{feat}</span>
                     </div>
                   ))}
@@ -284,14 +282,14 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
 
               {/* Amenities List */}
               <div>
-                <h4 className="text-xs font-black uppercase tracking-wider text-amber-400 mb-2">
-                  Building Amenities & Concierge Services
+                <h4 className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
+                  Building Amenities
                 </h4>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-1">
                   {selectedProperty.amenities.map((amenity, idx) => (
                     <span
                       key={idx}
-                      className="text-[11px] font-semibold px-3 py-1 rounded-xl bg-slate-950 text-slate-300 border border-slate-800"
+                      className="text-[10px] font-medium px-2 py-0.5 rounded bg-zinc-900 text-zinc-300 border border-white/[0.06]"
                     >
                       {amenity}
                     </span>
@@ -299,46 +297,46 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
                 </div>
               </div>
 
-              {/* Agent contact & Pitch Generator */}
-              <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs">
+              {/* Host Broker */}
+              <div className="p-3 rounded-lg bg-zinc-900/60 border border-white/[0.06] flex items-center justify-between text-xs">
                 <div>
-                  <span className="text-[10px] text-slate-400 block">Host Broker</span>
-                  <span className="font-black text-white text-sm">{selectedProperty.agentName}</span>
-                  <span className="text-slate-400 block mt-0.5">{selectedProperty.agentPhone} • {selectedProperty.agentEmail}</span>
+                  <span className="text-[10px] text-zinc-400 block">Host Broker</span>
+                  <span className="font-semibold text-white text-xs">{selectedProperty.agentName}</span>
+                  <span className="text-zinc-400 block mt-0.5 text-[11px] font-mono">{selectedProperty.agentPhone} • {selectedProperty.agentEmail}</span>
                 </div>
                 <button
                   onClick={() => handleGeneratePitch(selectedProperty)}
-                  className="px-3.5 py-2 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-bold hover:bg-indigo-500/30 transition cursor-pointer flex items-center gap-1.5 shadow-sm"
+                  className="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-white/[0.08] font-medium transition cursor-pointer flex items-center gap-1.5 text-xs"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>Generate Social Pitch</span>
+                  <Sparkles className="w-3.5 h-3.5 text-[#dfc195]" />
+                  <span>Generate Pitch</span>
                 </button>
               </div>
 
               {generatedPitch && (
-                <div className="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 text-xs space-y-2 animate-in fade-in">
+                <div className="p-3 rounded-lg bg-zinc-900/80 border border-white/[0.08] text-xs space-y-1.5 animate-in fade-in">
                   <div className="flex items-center justify-between">
-                    <span className="font-black text-indigo-300 flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-indigo-400" /> AI Social Marketing Pitch:
+                    <span className="font-semibold text-zinc-200 flex items-center gap-1.5 text-xs">
+                      <Sparkles className="w-3.5 h-3.5 text-[#dfc195]" /> AI Marketing Pitch:
                     </span>
                     <button
                       onClick={handleCopyPitch}
-                      className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-500/30 hover:bg-indigo-500/50 text-indigo-200 font-bold text-[11px] transition cursor-pointer"
+                      className="flex items-center gap-1 px-2 py-0.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-[11px] transition cursor-pointer"
                     >
                       {copiedPitch ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                      <span>{copiedPitch ? 'Copied!' : 'Copy Pitch'}</span>
+                      <span>{copiedPitch ? 'Copied' : 'Copy'}</span>
                     </button>
                   </div>
-                  <p className="text-slate-300 whitespace-pre-line text-xs font-mono bg-slate-900/80 p-3 rounded-xl border border-indigo-500/20 leading-relaxed">
+                  <p className="text-zinc-300 whitespace-pre-line text-xs font-mono bg-black/20 p-2.5 rounded border border-white/[0.04] leading-relaxed">
                     {generatedPitch}
                   </p>
                 </div>
               )}
 
-              <div className="flex justify-end gap-2.5 pt-3 border-t border-slate-800">
+              <div className="flex justify-end gap-2 pt-2 border-t border-white/[0.06]">
                 <button
                   onClick={() => setSelectedProperty(null)}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white cursor-pointer"
+                  className="px-3 py-1.5 rounded-lg text-xs text-zinc-400 hover:text-white cursor-pointer"
                 >
                   Close
                 </button>
@@ -348,10 +346,10 @@ export const PropertyCatalog: React.FC<PropertyCatalogProps> = ({
                     setSelectedProperty(null);
                     onSelectPropertyForChat(prop);
                   }}
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs shadow-md transition flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-1.5 rounded-lg bg-[#c8a97e] hover:bg-[#dfc195] text-zinc-950 font-semibold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-sm"
                 >
-                  <MessageSquare className="w-4 h-4 stroke-[2.5]" />
-                  <span>Launch in AI Chatbot</span>
+                  <MessageSquare className="w-3.5 h-3.5 stroke-[2.2]" />
+                  <span>Launch in Concierge</span>
                 </button>
               </div>
             </div>

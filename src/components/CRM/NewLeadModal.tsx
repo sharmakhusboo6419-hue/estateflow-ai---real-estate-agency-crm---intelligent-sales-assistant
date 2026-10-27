@@ -31,7 +31,7 @@ export const NewLeadModal: React.FC<NewLeadModalProps> = ({
   let tempRationale = '';
   if (budgetNum >= 1000000) {
     dynamicTemp = 'Hot';
-    tempRationale = 'High-net-worth tier ($1M+). Prioritized for immediate VIP viewing and senior broker handling.';
+    tempRationale = 'High-net-worth tier ($1M+). Prioritized for VIP tour scheduling and senior broker handling.';
   } else if (budgetNum >= 450000) {
     dynamicTemp = 'Warm';
     tempRationale = 'Core buyer sweet spot ($450k - $999k). Ready for active property matching and weekend tour proposals.';
@@ -74,29 +74,27 @@ export const NewLeadModal: React.FC<NewLeadModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden my-auto animate-in fade-in duration-200 flex flex-col">
-        <div className="p-5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center">
-              <UserPlus className="w-5 h-5 text-amber-400" />
-            </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm overflow-y-auto">
+      <div className="surface-elevated rounded-xl w-full max-w-lg shadow-2xl overflow-hidden my-auto animate-in fade-in duration-200 flex flex-col">
+        <div className="p-4 bg-zinc-950/80 border-b border-white/[0.08] flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <UserPlus className="w-4 h-4 text-[#dfc195]" />
             <div>
-              <h2 className="font-black text-white text-base">Add New Client to CRM</h2>
-              <p className="text-[11px] text-slate-400">Autonomous budget-based temperature qualification</p>
+              <h2 className="font-semibold text-white text-sm">Add Client to Pipeline</h2>
+              <p className="text-[11px] text-zinc-400">Automated budget-based tier qualification</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+            className="p-1 rounded text-zinc-400 hover:text-white transition cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-5 space-y-4 overflow-y-auto text-xs">
+        <form onSubmit={handleSubmit} className="p-4 space-y-3.5 overflow-y-auto text-xs">
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1.5">
+            <label className="block text-xs font-medium text-zinc-300 mb-1">
               Client Full Name *
             </label>
             <input
@@ -105,43 +103,43 @@ export const NewLeadModal: React.FC<NewLeadModalProps> = ({
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Rachel & Robert Taylor"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
+              className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#c8a97e]"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">Email Address</label>
+              <label className="block text-xs font-medium text-zinc-300 mb-1">Email Address</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="client@gmail.com"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
+                placeholder="client@example.com"
+                className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#c8a97e]"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">Phone Number</label>
+              <label className="block text-xs font-medium text-zinc-300 mb-1">Phone Number</label>
               <input
                 type="text"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="+1 (555) 012-3456"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
+                className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#c8a97e]"
               />
             </div>
           </div>
 
-          {/* Budget with Live AI Temperature Feedback */}
+          {/* Budget with Live Feedback */}
           <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-bold text-slate-300">
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-xs font-medium text-zinc-300">
                 Target Budget ($ USD) *
               </label>
-              <span className="text-[11px] text-amber-300 font-semibold">Calculates Tier</span>
+              <span className="text-[10px] text-zinc-400 font-mono">Calculates Tier</span>
             </div>
             <div className="relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 font-medium">$</span>
               <input
                 type="number"
                 min="50000"
@@ -149,42 +147,40 @@ export const NewLeadModal: React.FC<NewLeadModalProps> = ({
                 required
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-3.5 py-2.5 text-xs text-white font-black text-sm focus:outline-none focus:border-amber-500"
+                className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg pl-7 pr-3 py-2 text-xs text-white font-mono font-semibold focus:outline-none focus:border-[#c8a97e]"
               />
             </div>
 
             {/* Live Auto-Categorization Card */}
-            <div className="mt-2.5 p-3 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-slate-400">Classified Tier:</span>
-                {dynamicTemp === 'Hot' && (
-                  <span className="flex items-center gap-1.5 text-xs font-black text-rose-300 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/40">
-                    <Flame className="w-3.5 h-3.5 text-rose-400" /> HOT LEAD ($1M+)
-                  </span>
-                )}
-                {dynamicTemp === 'Warm' && (
-                  <span className="flex items-center gap-1.5 text-xs font-black text-amber-300 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40">
-                    <Sun className="w-3.5 h-3.5 text-amber-400" /> WARM LEAD ($450k+)
-                  </span>
-                )}
-                {dynamicTemp === 'Cold' && (
-                  <span className="flex items-center gap-1.5 text-xs font-black text-sky-300 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-500/40">
-                    <Snowflake className="w-3.5 h-3.5 text-sky-400" /> COLD LEAD (&lt;$450k)
-                  </span>
-                )}
-              </div>
+            <div className="mt-2 p-2.5 rounded-lg bg-zinc-950/60 border border-white/[0.06] flex items-center justify-between gap-2">
+              <span className="text-xs text-zinc-400">Classified Tier:</span>
+              {dynamicTemp === 'Hot' && (
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-300 px-2.5 py-0.5 rounded bg-rose-500/10 border border-rose-500/20">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400" /> HOT LEAD ($1M+)
+                </span>
+              )}
+              {dynamicTemp === 'Warm' && (
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-200 px-2.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400" /> WARM LEAD ($450k+)
+                </span>
+              )}
+              {dynamicTemp === 'Cold' && (
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-300 px-2.5 py-0.5 rounded bg-sky-500/10 border border-sky-500/20">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400" /> COLD LEAD (&lt;$450k)
+                </span>
+              )}
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">
+              <label className="block text-xs font-medium text-zinc-300 mb-1">
                 Buying Horizon
               </label>
               <select
                 value={timeline}
                 onChange={(e) => setTimeline(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
+                className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#c8a97e]"
               >
                 <option value="Immediate (< 30 days)">Immediate (&lt; 30 days)</option>
                 <option value="Within 30-60 days">Within 30-60 days</option>
@@ -194,13 +190,13 @@ export const NewLeadModal: React.FC<NewLeadModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">
+              <label className="block text-xs font-medium text-zinc-300 mb-1">
                 Interested Property
               </label>
               <select
                 value={selectedPropertyId}
                 onChange={(e) => setSelectedPropertyId(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
+                className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#c8a97e]"
               >
                 {properties.map((p) => (
                   <option key={p.id} value={p.id}>
@@ -211,30 +207,30 @@ export const NewLeadModal: React.FC<NewLeadModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 pt-1.5">
+          <div className="flex items-center gap-2 pt-1">
             <input
               type="checkbox"
               id="preApproved"
               checked={preApproved}
               onChange={(e) => setPreApproved(e.target.checked)}
-              className="w-4 h-4 rounded bg-slate-950 border-slate-700 text-amber-500 focus:ring-0 cursor-pointer"
+              className="w-3.5 h-3.5 rounded bg-zinc-900 border-zinc-700 text-[#c8a97e] focus:ring-0 cursor-pointer"
             />
-            <label htmlFor="preApproved" className="text-xs font-medium text-slate-300 cursor-pointer">
-              Client already has mortgage pre-approval letter or proof of funds
+            <label htmlFor="preApproved" className="text-xs text-zinc-300 cursor-pointer">
+              Client has mortgage pre-approval letter or proof of funds
             </label>
           </div>
 
-          <div className="pt-3 border-t border-slate-800 flex justify-end gap-2.5">
+          <div className="pt-3 border-t border-white/[0.06] flex justify-end gap-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+              className="px-3 py-1.5 rounded-lg text-xs text-zinc-400 hover:text-white cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-md transition cursor-pointer"
+              className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[#c8a97e] hover:bg-[#dfc195] text-zinc-950 transition cursor-pointer shadow-sm"
             >
               Add to CRM Pipeline
             </button>

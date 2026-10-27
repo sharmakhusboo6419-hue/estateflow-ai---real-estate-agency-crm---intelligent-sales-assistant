@@ -28,213 +28,218 @@ export const HowItWorksModal: React.FC<HowItWorksProps> = ({
   onSimulateLead,
 }) => {
   return (
-    <div className="space-y-8 max-w-5xl mx-auto pb-12 animate-in fade-in duration-300">
+    <div className="space-y-6 max-w-5xl mx-auto pb-12 animate-in fade-in duration-200">
       {/* Hero Explainer Banner */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/30 border border-slate-800 rounded-3xl p-6 sm:p-8 sm:py-10 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="relative z-10 max-w-3xl space-y-3.5">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-black">
-            <Zap className="w-3.5 h-3.5 text-amber-400" /> Complete System Overview & Architecture
-          </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
-            How EstateFlow AI Powers Real Estate Agencies
-          </h1>
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            Real estate agencies lose over 60% of potential buyers because salespersons take hours to answer inquiries. EstateFlow AI bridges the gap by answering instantly 24/7, auto-qualifying budgets into <span className="text-rose-400 font-bold">Hot</span>, <span className="text-amber-400 font-bold">Warm</span>, and <span className="text-sky-400 font-bold">Cold</span> tiers, proposing available viewing slots, and running automated follow-ups.
-          </p>
+      <div className="surface-card rounded-xl p-6 sm:p-8 space-y-4">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#c8a97e]/10 text-[#dfc195] border border-[#c8a97e]/20 text-xs font-mono font-medium">
+          <Zap className="w-3 h-3 text-[#dfc195]" /> Architecture & Workflow
+        </div>
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight">
+          How EstateFlow AI Powers High-Performance Brokerages
+        </h1>
+        <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed max-w-3xl">
+          Real estate agencies lose over 60% of prospective buyers due to multi-hour response delays. EstateFlow AI bridges this gap with 24/7 instant client concierge service, budget extraction into Hot, Warm, and Cold tiers, automated tour scheduling, and disciplined follow-up cadences.
+        </p>
 
-          <div className="pt-3 flex flex-wrap gap-3">
-            <button
-              onClick={() => onNavigateTab('chat')}
-              className="px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs shadow-lg shadow-amber-500/25 transition flex items-center gap-2 cursor-pointer"
-            >
-              <MessageSquare className="w-4 h-4 stroke-[2.5]" />
-              <span>Launch Client Chat Simulator</span>
-            </button>
-            <button
-              onClick={onSimulateLead}
-              className="px-5 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700 transition flex items-center gap-2 cursor-pointer shadow-md"
-            >
-              <TrendingUp className="w-4 h-4 text-emerald-400" />
-              <span>Simulate Inbound Buyer Lead</span>
-            </button>
-          </div>
+        <div className="pt-2 flex flex-wrap gap-2.5">
+          <button
+            onClick={() => onNavigateTab('chat')}
+            className="px-4 py-2 rounded-lg bg-[#c8a97e] hover:bg-[#dfc195] text-zinc-950 font-semibold text-xs shadow-sm transition flex items-center gap-2 cursor-pointer"
+          >
+            <MessageSquare className="w-3.5 h-3.5 stroke-[2.2]" />
+            <span>Launch Sales Concierge</span>
+          </button>
+          <button
+            onClick={onSimulateLead}
+            className="px-4 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-medium text-xs border border-white/[0.08] transition flex items-center gap-2 cursor-pointer"
+          >
+            <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Simulate Inbound Lead</span>
+          </button>
         </div>
       </div>
 
       {/* 4 Pillars Breakdown */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Pillar 1: AI Instant Property Expert */}
-        <div className="bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 rounded-3xl p-6 sm:p-7 shadow-xl space-y-4 backdrop-blur-md transition">
-          <div className="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center">
-            <MessageSquare className="w-6 h-6" />
+        <div className="surface-card rounded-xl p-5 sm:p-6 space-y-3 flex flex-col justify-between">
+          <div className="space-y-3">
+            <div className="w-9 h-9 rounded-lg bg-zinc-900 border border-white/[0.1] text-[#dfc195] flex items-center justify-center">
+              <MessageSquare className="w-4 h-4" />
+            </div>
+
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">Pillar 1</span>
+              <h3 className="text-sm sm:text-base font-semibold text-white mt-0.5">
+                Instant Listing Intelligence
+              </h3>
+            </div>
+
+            <p className="text-xs text-zinc-300 leading-relaxed">
+              Provides immediate answers to complex architectural and financial inquiries with full listing context:
+            </p>
+
+            <ul className="text-xs text-zinc-400 space-y-2">
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Extracts exact floor plans, square footage, and outdoor terrace specifications.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Calculates 20% down payments, monthly mortgage estimates, and HOA dues dynamically.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Surfaces neighborhood insights, verified school ratings, and transit access.</span>
+              </li>
+            </ul>
           </div>
-
-          <div>
-            <span className="text-xs font-black uppercase tracking-wider text-amber-400">Pillar 1</span>
-            <h3 className="text-lg font-black text-white mt-0.5">
-              Instant AI Property Knowledge Bot
-            </h3>
-          </div>
-
-          <p className="text-xs text-slate-300 leading-relaxed">
-            Instead of buyers waiting for an agent to check brochures, the AI has instant access to your entire inventory:
-          </p>
-
-          <ul className="text-xs text-slate-400 space-y-2.5">
-            <li className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span>Answers exact square footage, floor plans, outdoor terraces, and ceiling heights.</span>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span>Calculates 20% down payments, monthly mortgage estimates, and monthly HOA dues on the fly.</span>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span>Provides neighborhood insights, school ratings, and transit walking times.</span>
-            </li>
-          </ul>
 
           <button
             onClick={() => onNavigateTab('chat')}
-            className="text-xs text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1 pt-2 cursor-pointer"
+            className="text-xs text-[#dfc195] hover:text-white font-medium flex items-center gap-1 pt-2 cursor-pointer"
           >
-            Open Live Chat Simulator <ArrowRight className="w-3.5 h-3.5" />
+            Open Sales Concierge <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
 
         {/* Pillar 2: Budget-Based Segregation */}
-        <div className="bg-slate-900/90 border border-slate-800 hover:border-rose-500/40 rounded-3xl p-6 sm:p-7 shadow-xl space-y-4 backdrop-blur-md transition">
-          <div className="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center justify-center">
-            <Flame className="w-6 h-6" />
-          </div>
-
-          <div>
-            <span className="text-xs font-black uppercase tracking-wider text-rose-400">Pillar 2</span>
-            <h3 className="text-lg font-black text-white mt-0.5">
-              Cold, Warm & Hot Budget Segregation
-            </h3>
-          </div>
-
-          <p className="text-xs text-slate-300 leading-relaxed">
-            The AI analyzes client conversations in real-time and segments leads by budget, timeline, and financing status:
-          </p>
-
-          <div className="space-y-2 text-xs">
-            <div className="p-3 rounded-2xl bg-rose-500/10 border border-rose-500/30">
-              <span className="font-black text-rose-300 flex items-center gap-1.5">
-                <Flame className="w-3.5 h-3.5 text-rose-400" /> Hot Leads ($1M+ or &lt;30 days)
-              </span>
-              <p className="text-[11px] text-slate-400 mt-1">
-                Priority buyers with liquid cash or jumbo pre-approval. Routed to Senior Brokers within 15 minutes.
-              </p>
+        <div className="surface-card rounded-xl p-5 sm:p-6 space-y-3 flex flex-col justify-between">
+          <div className="space-y-3">
+            <div className="w-9 h-9 rounded-lg bg-zinc-900 border border-white/[0.1] text-rose-400 flex items-center justify-center">
+              <Flame className="w-4 h-4" />
             </div>
 
-            <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30">
-              <span className="font-black text-amber-300 flex items-center gap-1.5">
-                <Sun className="w-3.5 h-3.5 text-amber-400" /> Warm Prospects ($450k – $999k)
-              </span>
-              <p className="text-[11px] text-slate-400 mt-1">
-                Core sweet-spot buyers. Engaged in property comparisons and ready for weekend viewing slots.
-              </p>
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">Pillar 2</span>
+              <h3 className="text-sm sm:text-base font-semibold text-white mt-0.5">
+                Automated Temperature Tiering
+              </h3>
             </div>
 
-            <div className="p-3 rounded-2xl bg-sky-500/10 border border-sky-500/30">
-              <span className="font-black text-sky-300 flex items-center gap-1.5">
-                <Snowflake className="w-3.5 h-3.5 text-sky-400" /> Cold Leads (&lt;$450k / 6+ months)
-              </span>
-              <p className="text-[11px] text-slate-400 mt-1">
-                Long-tail searchers saved from slipping away via automated low-frequency price drop digests.
-              </p>
+            <p className="text-xs text-zinc-300 leading-relaxed">
+              Segments prospects across verified purchasing budgets, timeline urgency, and financial readiness:
+            </p>
+
+            <div className="space-y-2 text-xs">
+              <div className="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/20">
+                <span className="font-semibold text-rose-300 flex items-center gap-1.5 text-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400" /> Hot Leads ($1M+ or &lt;30 days)
+                </span>
+                <p className="text-[11px] text-zinc-400 mt-0.5">
+                  Priority buyers with liquid cash or jumbo pre-approval. Routed immediately to senior brokers.
+                </p>
+              </div>
+
+              <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                <span className="font-semibold text-amber-200 flex items-center gap-1.5 text-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400" /> Warm Prospects ($450k – $999k)
+                </span>
+                <p className="text-[11px] text-zinc-400 mt-0.5">
+                  Core active buyers. Engaged in listing comparisons and weekend tour scheduling.
+                </p>
+              </div>
+
+              <div className="p-2.5 rounded-lg bg-sky-500/10 border border-sky-500/20">
+                <span className="font-semibold text-sky-300 flex items-center gap-1.5 text-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400" /> Cold Leads (&lt;$450k / 6+ months)
+                </span>
+                <p className="text-[11px] text-zinc-400 mt-0.5">
+                  Long-tail searchers enrolled into low-frequency price drop alerts and new release digests.
+                </p>
+              </div>
             </div>
           </div>
 
           <button
             onClick={() => onNavigateTab('crm')}
-            className="text-xs text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1 pt-1 cursor-pointer"
+            className="text-xs text-[#dfc195] hover:text-white font-medium flex items-center gap-1 pt-1 cursor-pointer"
           >
-            Inspect Kanban CRM Pipeline <ArrowRight className="w-3.5 h-3.5" />
+            Inspect Pipeline Board <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
 
         {/* Pillar 3: AI Viewing Slot Suggestion */}
-        <div className="bg-slate-900/90 border border-slate-800 hover:border-indigo-500/40 rounded-3xl p-6 sm:p-7 shadow-xl space-y-4 backdrop-blur-md transition">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center">
-            <Calendar className="w-6 h-6" />
+        <div className="surface-card rounded-xl p-5 sm:p-6 space-y-3 flex flex-col justify-between">
+          <div className="space-y-3">
+            <div className="w-9 h-9 rounded-lg bg-zinc-900 border border-white/[0.1] text-indigo-400 flex items-center justify-center">
+              <Calendar className="w-4 h-4" />
+            </div>
+
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">Pillar 3</span>
+              <h3 className="text-sm sm:text-base font-semibold text-white mt-0.5">
+                Instant Appointment Booking
+              </h3>
+            </div>
+
+            <p className="text-xs text-zinc-300 leading-relaxed">
+              Eliminates phone tag by proposing available agent showing windows directly inside conversation:
+            </p>
+
+            <ul className="text-xs text-zinc-400 space-y-2">
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Fetches real-time showing slots based on listing agent calendar availability.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Client confirms appointment with a single tap in the chat stream.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Syncs to viewing schedule with .ics calendar invite generation.</span>
+              </li>
+            </ul>
           </div>
-
-          <div>
-            <span className="text-xs font-black uppercase tracking-wider text-indigo-400">Pillar 3</span>
-            <h3 className="text-lg font-black text-white mt-0.5">
-              Interactive Available Timing Slots
-            </h3>
-          </div>
-
-          <p className="text-xs text-slate-300 leading-relaxed">
-            Eliminates 10-message phone tag. When the client expresses interest or says "can I see it?":
-          </p>
-
-          <ul className="text-xs text-slate-400 space-y-2.5">
-            <li className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span>AI immediately fetches 3 to 4 open showing slots based on the agent's real schedule.</span>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span>Client clicks a slot button directly in chat to confirm.</span>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span>Appointment is automatically synced to the calendar and the lead is marked as "Viewing Scheduled".</span>
-            </li>
-          </ul>
 
           <button
             onClick={() => onNavigateTab('calendar')}
-            className="text-xs text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1 pt-2 cursor-pointer"
+            className="text-xs text-[#dfc195] hover:text-white font-medium flex items-center gap-1 pt-2 cursor-pointer"
           >
-            View Schedule Calendar <ArrowRight className="w-3.5 h-3.5" />
+            View Calendar Schedule <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
 
         {/* Pillar 4: Automated AI Follow-ups */}
-        <div className="bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 rounded-3xl p-6 sm:p-7 shadow-xl space-y-4 backdrop-blur-md transition">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center">
-            <Send className="w-6 h-6" />
+        <div className="surface-card rounded-xl p-5 sm:p-6 space-y-3 flex flex-col justify-between">
+          <div className="space-y-3">
+            <div className="w-9 h-9 rounded-lg bg-zinc-900 border border-white/[0.1] text-emerald-400 flex items-center justify-center">
+              <Send className="w-4 h-4" />
+            </div>
+
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">Pillar 4</span>
+              <h3 className="text-sm sm:text-base font-semibold text-white mt-0.5">
+                Multichannel Outreach Cadence
+              </h3>
+            </div>
+
+            <p className="text-xs text-zinc-300 leading-relaxed">
+              Prevents deal decay by executing automated follow-ups calibrated to each buyer's urgency tier:
+            </p>
+
+            <ul className="text-xs text-zinc-400 space-y-2">
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Supports WhatsApp, SMS, and Email with channel-specific tone of voice.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Synthesizes persuasive, personalized copy based on property specs and budget.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <span>Logs buyer responses and automatically resolves inactive lead alerts.</span>
+              </li>
+            </ul>
           </div>
-
-          <div>
-            <span className="text-xs font-black uppercase tracking-wider text-emerald-400">Pillar 4</span>
-            <h3 className="text-lg font-black text-white mt-0.5">
-              Multi-Channel Automated AI Follow-ups
-            </h3>
-          </div>
-
-          <p className="text-xs text-slate-300 leading-relaxed">
-            Keeps clients from slipping away by tailoring messaging cadences to their temperature tier:
-          </p>
-
-          <ul className="text-xs text-slate-400 space-y-2.5">
-            <li className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span>Supports WhatsApp, SMS, and Email with channel-specific conversational formatting.</span>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span>AI crafts high-converting copy in seconds (e.g. "We have 2 other inquiries, held a slot for you").</span>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span>Tracks client replies and logs engagement history in the CRM dossier.</span>
-            </li>
-          </ul>
 
           <button
             onClick={() => onNavigateTab('followup')}
-            className="text-xs text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1 pt-2 cursor-pointer"
+            className="text-xs text-[#dfc195] hover:text-white font-medium flex items-center gap-1 pt-2 cursor-pointer"
           >
-            Explore Follow-up Engine <ArrowRight className="w-3.5 h-3.5" />
+            Explore Cadence Studio <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>

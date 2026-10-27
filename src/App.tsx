@@ -468,7 +468,7 @@ Reply with your preferred slot and we will confirm it on your calendar instantly
   };
 
   return (
-    <div className="min-h-[100dvh] bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-amber-500 selection:text-slate-950">
+    <div className="min-h-[100dvh] bg-[#090a0f] text-zinc-100 flex flex-col font-sans selection:bg-amber-500/20 selection:text-amber-200">
       {/* Navigation Header */}
       <Navbar
         activeTab={activeTab}
@@ -481,13 +481,13 @@ Reply with your preferred slot and we will confirm it on your calendar instantly
 
       {/* Toast Notification Banner */}
       {toastMessage && (
-        <div className="fixed top-[5.2rem] right-3 sm:right-6 z-[60] w-[calc(100%-1.5rem)] sm:w-auto animate-in slide-in-from-top-2 duration-300">
-          <div className="bg-slate-900/95 border border-amber-500/40 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-bold backdrop-blur-xl ring-1 ring-amber-500/20">
-            <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
-            <span className="flex-1">{toastMessage}</span>
+        <div className="fixed top-[4.8rem] right-4 sm:right-8 z-[60] w-[calc(100%-2rem)] sm:w-auto animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="surface-elevated text-zinc-100 px-4 py-2.5 rounded-lg shadow-xl flex items-center gap-3 text-xs font-medium backdrop-blur-xl">
+            <span className="w-2 h-2 rounded-full bg-[#dfc195]" />
+            <span className="flex-1 text-zinc-200">{toastMessage}</span>
             <button
               onClick={() => setToastMessage(null)}
-              className="text-slate-400 hover:text-white ml-1 p-0.5"
+              className="text-zinc-400 hover:text-white ml-2 p-1 text-xs cursor-pointer"
             >
               ✕
             </button>
@@ -496,7 +496,7 @@ Reply with your preferred slot and we will confirm it on your calendar instantly
       )}
 
       {/* Main View Container */}
-      <main className="flex-1 max-w-[92rem] w-full mx-auto px-3 sm:px-5 lg:px-8 py-5 sm:py-7">
+      <main className="flex-1 max-w-[96rem] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {activeTab === 'crm' && (
           <LeadsPipeline
             leads={leads}
@@ -566,21 +566,21 @@ Reply with your preferred slot and we will confirm it on your calendar instantly
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/80 py-6 text-xs text-slate-500">
-        <div className="max-w-[92rem] mx-auto px-3 sm:px-5 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <footer className="border-t border-white/[0.06] bg-[#090a0f] py-5 text-xs text-zinc-500">
+        <div className="max-w-[96rem] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-300">EstateFlow AI</span>
-            <span>•</span>
-            <span>Autonomous Real Estate Sales Assistant</span>
+            <span className="font-semibold text-zinc-300">EstateFlow AI</span>
+            <span className="text-zinc-600">•</span>
+            <span className="text-zinc-400">Intelligent Real Estate Brokerage Platform</span>
           </div>
-          <div className="flex items-center gap-4 text-[11px]">
+          <div className="flex items-center gap-4 text-[11px] font-mono text-zinc-400">
             <span className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
               Engine: {hasGeminiKey ? 'Gemini 3.8 Flash' : 'Simulated AI'}
             </span>
-            <span>•</span>
+            <span className="text-zinc-700">•</span>
             <span>Firestore Synced</span>
-            <span>•</span>
+            <span className="text-zinc-700">•</span>
             <span>© 2026 EstateFlow Agency</span>
           </div>
         </div>

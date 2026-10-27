@@ -47,43 +47,13 @@ const STAGES: PipelineStage[] = [
   'Closed Won',
 ];
 
-const STAGE_COLORS: Record<PipelineStage, { bg: string; border: string; dot: string; text: string }> = {
-  'New Lead': {
-    bg: 'from-blue-500/10 to-transparent',
-    border: 'border-blue-500/30',
-    dot: 'bg-blue-400',
-    text: 'text-blue-300',
-  },
-  'AI Engaged': {
-    bg: 'from-amber-500/10 to-transparent',
-    border: 'border-amber-500/30',
-    dot: 'bg-amber-400',
-    text: 'text-amber-300',
-  },
-  'Viewing Scheduled': {
-    bg: 'from-indigo-500/10 to-transparent',
-    border: 'border-indigo-500/30',
-    dot: 'bg-indigo-400',
-    text: 'text-indigo-300',
-  },
-  'Offer & Negotiation': {
-    bg: 'from-rose-500/10 to-transparent',
-    border: 'border-rose-500/30',
-    dot: 'bg-rose-400',
-    text: 'text-rose-300',
-  },
-  'Closed Won': {
-    bg: 'from-emerald-500/10 to-transparent',
-    border: 'border-emerald-500/30',
-    dot: 'bg-emerald-400',
-    text: 'text-emerald-300',
-  },
-  'Archived / Cold': {
-    bg: 'from-slate-500/10 to-transparent',
-    border: 'border-slate-500/30',
-    dot: 'bg-slate-400',
-    text: 'text-slate-300',
-  },
+const STAGE_DOTS: Record<PipelineStage, string> = {
+  'New Lead': 'bg-sky-400',
+  'AI Engaged': 'bg-[#dfc195]',
+  'Viewing Scheduled': 'bg-indigo-400',
+  'Offer & Negotiation': 'bg-rose-400',
+  'Closed Won': 'bg-emerald-400',
+  'Archived / Cold': 'bg-zinc-500',
 };
 
 export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
@@ -165,23 +135,23 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
     switch (temp) {
       case 'Hot':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-500/15 border border-rose-500/35 text-rose-300 shadow-sm shadow-rose-500/10">
-            <Flame className="w-3.5 h-3.5 text-rose-400" />
-            Hot Lead (&gt;$1M)
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-rose-500/10 border border-rose-500/20 text-rose-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+            Hot Lead
           </span>
         );
       case 'Warm':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/15 border border-amber-500/35 text-amber-300 shadow-sm shadow-amber-500/10">
-            <Sun className="w-3.5 h-3.5 text-amber-400" />
-            Warm Lead ($450k+)
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-amber-500/10 border border-amber-500/20 text-amber-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+            Warm
           </span>
         );
       case 'Cold':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-500/15 border border-sky-500/35 text-sky-300 shadow-sm shadow-sky-500/10">
-            <Snowflake className="w-3.5 h-3.5 text-sky-400" />
-            Cold Lead
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-sky-500/10 border border-sky-500/20 text-sky-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+            Cold
           </span>
         );
     }
@@ -246,144 +216,141 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
   };
 
   return (
-    <div className="space-y-5 sm:space-y-6 animate-in fade-in duration-300">
+    <div className="space-y-6 animate-in fade-in duration-200">
       {/* Real Estate Executive KPI Dashboard */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* KPI 1: Total Pipeline Value */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/20 border border-slate-800 shadow-xl relative overflow-hidden group hover:border-amber-500/30 transition">
+        <div className="surface-card rounded-xl p-4 sm:p-5 relative overflow-hidden group">
           <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-              Total Pipeline Value
+            <span className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider">
+              Total Pipeline Volume
             </span>
-            <div className="w-8 h-8 rounded-xl bg-amber-500/15 text-amber-400 border border-amber-500/30 flex items-center justify-center">
-              <DollarSign className="w-4 h-4" />
+            <div className="w-7 h-7 rounded-lg bg-zinc-800 border border-white/[0.08] text-[#dfc195] flex items-center justify-center">
+              <DollarSign className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-white tracking-tight">
+          <div className="text-2xl sm:text-3xl font-mono font-bold text-white tracking-tight">
             ${(stats.totalPipelineValue / 1000000).toFixed(2)}M
           </div>
-          <p className="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
-            <TrendingUp className="w-3 h-3 text-emerald-400" />
-            <span className="text-emerald-400 font-bold">{leads.length}</span> active prospects in CRM
+          <p className="text-[11px] text-zinc-400 mt-1.5 flex items-center gap-1.5">
+            <span className="font-mono text-emerald-400 font-semibold">{leads.length}</span>
+            <span>active client engagements</span>
           </p>
         </div>
 
-        {/* KPI 2: Hot Buyers Volume */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-rose-950/20 border border-slate-800 shadow-xl relative overflow-hidden group hover:border-rose-500/30 transition">
+        {/* KPI 2: VIP Hot Buyers Volume */}
+        <div className="surface-card rounded-xl p-4 sm:p-5 relative overflow-hidden group">
           <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-              VIP Hot Buyers
+            <span className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider">
+              High-Intent VIP Buyers
             </span>
-            <div className="w-8 h-8 rounded-xl bg-rose-500/15 text-rose-400 border border-rose-500/30 flex items-center justify-center">
-              <Flame className="w-4 h-4" />
+            <div className="w-7 h-7 rounded-lg bg-zinc-800 border border-white/[0.08] text-rose-400 flex items-center justify-center">
+              <Flame className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-rose-300 tracking-tight">
-            {stats.hotCount} <span className="text-xs text-slate-400 font-normal">Clients</span>
+          <div className="text-2xl sm:text-3xl font-mono font-bold text-white tracking-tight">
+            {stats.hotCount} <span className="text-xs font-normal text-zinc-400 font-sans">Buyers</span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
-            <span className="text-rose-400 font-bold">${(stats.hotValue / 1000000).toFixed(1)}M</span> liquid capital ready
+          <p className="text-[11px] text-zinc-400 mt-1.5">
+            <span className="font-mono text-rose-300 font-semibold">${(stats.hotValue / 1000000).toFixed(1)}M</span> liquid capital
           </p>
         </div>
 
-        {/* KPI 3: Mortgage Pre-Approval Rate */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/20 border border-slate-800 shadow-xl relative overflow-hidden group hover:border-emerald-500/30 transition">
+        {/* KPI 3: Pre-Approval Rate */}
+        <div className="surface-card rounded-xl p-4 sm:p-5 relative overflow-hidden group">
           <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-              Pre-Approval Rate
+            <span className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider">
+              Pre-Approved Capital
             </span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center">
-              <ShieldCheck className="w-4 h-4" />
+            <div className="w-7 h-7 rounded-lg bg-zinc-800 border border-white/[0.08] text-emerald-400 flex items-center justify-center">
+              <ShieldCheck className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-emerald-300 tracking-tight">
+          <div className="text-2xl sm:text-3xl font-mono font-bold text-white tracking-tight">
             {stats.preApprovedRate}%
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
-            Verified financing & ready to submit offers
+          <p className="text-[11px] text-zinc-400 mt-1.5">
+            Verified financing & pre-qualified
           </p>
         </div>
 
         {/* KPI 4: Average AI Intent Score */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/20 border border-slate-800 shadow-xl relative overflow-hidden group hover:border-indigo-500/30 transition">
+        <div className="surface-card rounded-xl p-4 sm:p-5 relative overflow-hidden group">
           <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-              Avg AI Intent Score
+            <span className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider">
+              Avg Qualification Score
             </span>
-            <div className="w-8 h-8 rounded-xl bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 flex items-center justify-center">
-              <Sparkles className="w-4 h-4" />
+            <div className="w-7 h-7 rounded-lg bg-zinc-800 border border-white/[0.08] text-indigo-400 flex items-center justify-center">
+              <Sparkles className="w-3.5 h-3.5" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-indigo-300 tracking-tight">
-            {stats.avgScore} <span className="text-xs text-slate-400 font-normal">/ 100</span>
+          <div className="text-2xl sm:text-3xl font-mono font-bold text-white tracking-tight">
+            {stats.avgScore} <span className="text-xs font-normal text-zinc-400 font-sans">/ 100</span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
-            High purchase readiness & responsive rate
+          <p className="text-[11px] text-zinc-400 mt-1.5">
+            Automated multi-factor buyer tiering
           </p>
         </div>
       </div>
 
-      {/* Main Controls Card */}
-      <div className="bg-slate-900/95 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-xl backdrop-blur-xl">
+      {/* Main Controls & Header Card */}
+      <div className="surface-card rounded-xl p-4 sm:p-5">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center justify-center">
-                <Users className="w-5 h-5" />
-              </div>
-              <h1 className="text-lg sm:text-xl font-black text-white tracking-tight">
-                Leads Pipeline & Client Qualification
+              <h1 className="text-base sm:text-lg font-bold text-white tracking-tight">
+                Client Pipeline & Qualification
               </h1>
+              <span className="text-[11px] font-mono text-zinc-400 bg-white/[0.04] border border-white/[0.08] px-2 py-0.5 rounded">
+                {filteredLeads.length} Profiles
+              </span>
             </div>
-            <p className="text-xs text-slate-400 mt-1">
-              Autonomous AI categorization: Cold, Warm, and Hot tiers based on verified liquid budget, timeline, and urgency.
+            <p className="text-xs text-zinc-400 mt-1">
+              Automated buyer temperature classification based on verified liquid budget, timeline urgency, and response velocity.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+          <div className="flex flex-wrap items-center gap-2">
             {/* Export CSV Button */}
             <button
               onClick={handleExportCSV}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 text-slate-200 border border-slate-700/80 font-bold text-xs shadow-md transition-all hover:border-slate-600 cursor-pointer"
-              title="Download structured spreadsheet (.csv) of current filtered leads"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-white/[0.08] font-medium text-xs transition cursor-pointer"
+              title="Download structured spreadsheet (.csv)"
             >
-              <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
+              <FileSpreadsheet className="w-3.5 h-3.5 text-zinc-400" />
               <span>Export CSV</span>
-              <span className="text-[10px] bg-slate-900 px-1.5 py-0.5 rounded-full text-slate-400">
-                {filteredLeads.length}
-              </span>
             </button>
 
             {/* Add Client Button */}
             <button
               onClick={onOpenNewLeadModal}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs shadow-lg shadow-amber-500/20 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#c8a97e] hover:bg-[#dfc195] text-zinc-950 font-semibold text-xs shadow-sm transition cursor-pointer"
             >
-              <Plus className="w-4 h-4 stroke-[2.5]" />
-              <span>Add Client</span>
+              <Plus className="w-3.5 h-3.5 stroke-[2.2]" />
+              <span>Add Prospect</span>
             </button>
 
             {/* View Mode Switcher */}
-            <div className="flex items-center bg-slate-950 border border-slate-800 rounded-xl p-1 text-xs">
+            <div className="flex items-center bg-zinc-900 border border-white/[0.08] rounded-lg p-0.5 text-xs">
               <button
                 onClick={() => setViewMode('kanban')}
-                className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer ${
+                className={`px-2.5 py-1 rounded-md font-medium transition cursor-pointer text-xs ${
                   viewMode === 'kanban'
-                    ? 'bg-amber-500 text-slate-950 shadow-md'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-zinc-800 text-white shadow-sm'
+                    : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                Kanban
+                Board
               </button>
               <button
                 onClick={() => setViewMode('table')}
-                className={`px-3 py-1.5 rounded-lg font-bold transition cursor-pointer ${
+                className={`px-2.5 py-1 rounded-md font-medium transition cursor-pointer text-xs ${
                   viewMode === 'table'
-                    ? 'bg-amber-500 text-slate-950 shadow-md'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-zinc-800 text-white shadow-sm'
+                    : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                Table View
+                Table
               </button>
             </div>
           </div>
@@ -391,60 +358,48 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
 
         {/* Stale Leads Needs Attention Alert Banner */}
         {staleLeads.length > 0 && (
-          <div className="mt-4 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-in fade-in">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center flex-shrink-0">
-                <AlertTriangle className="w-4 h-4 text-amber-400 animate-bounce" />
-              </div>
+          <div className="mt-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
               <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-amber-300">
-                    Stale Lead Alert: {staleLeads.length} Client{staleLeads.length > 1 ? 's' : ''} Require Follow-up
-                  </span>
-                  <span className="text-[10px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded-full font-bold border border-rose-500/30">
-                    &gt; 7 Days Inactive
-                  </span>
-                </div>
-                <p className="text-[11px] text-slate-400 mt-0.5">
-                  Clients without agent touchpoints in over a week are highlighted to protect against deal drop-off.
-                </p>
+                <span className="text-xs font-semibold text-amber-200">
+                  {staleLeads.length} Client{staleLeads.length > 1 ? 's' : ''} Require Follow-Up
+                </span>
+                <span className="text-[11px] text-zinc-400 ml-2">
+                  No touchpoints logged in over 7 days. Action advised to protect engagement.
+                </span>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <button
-                onClick={() => {
-                  setFilterNeedsAttention(!filterNeedsAttention);
-                  if (!filterNeedsAttention) setTemperatureFilter('All');
-                }}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
-                  filterNeedsAttention
-                    ? 'bg-amber-500 text-slate-950 font-black'
-                    : 'bg-slate-800 text-amber-300 hover:bg-slate-700 border border-amber-500/30'
-                }`}
-              >
-                {filterNeedsAttention ? 'Clear Filter' : `Filter Needs Attention (${staleLeads.length})`}
-              </button>
-            </div>
+            <button
+              onClick={() => {
+                setFilterNeedsAttention(!filterNeedsAttention);
+                if (!filterNeedsAttention) setTemperatureFilter('All');
+              }}
+              className={`px-2.5 py-1 rounded-md text-xs font-medium transition cursor-pointer shrink-0 ${
+                filterNeedsAttention
+                  ? 'bg-amber-400 text-zinc-950 font-semibold'
+                  : 'bg-zinc-900 text-amber-300 hover:bg-zinc-800 border border-amber-500/30'
+              }`}
+            >
+              {filterNeedsAttention ? 'Show All' : `Filter Stale (${staleLeads.length})`}
+            </button>
           </div>
         )}
 
         {/* Filter Bar with Temperature Segregation tabs */}
-        <div className="mt-5 pt-4 border-t border-slate-800/80 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+        <div className="mt-4 pt-3.5 border-t border-white/[0.06] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
           {/* Temperature Buttons */}
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-xs font-bold text-slate-400 mr-1 flex items-center gap-1">
-              <Filter className="w-3.5 h-3.5" /> Filter:
-            </span>
             <button
               onClick={() => {
                 setTemperatureFilter('All');
                 setFilterNeedsAttention(false);
               }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+              className={`px-2.5 py-1 rounded-md text-xs font-medium transition cursor-pointer ${
                 temperatureFilter === 'All' && !filterNeedsAttention
-                  ? 'bg-slate-800 text-white font-black border border-slate-700 shadow-sm'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                  ? 'bg-zinc-800 text-white border border-white/[0.1]'
+                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
               }`}
             >
               All Tiers ({leads.length})
@@ -454,77 +409,59 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                 setTemperatureFilter('Hot');
                 setFilterNeedsAttention(false);
               }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition cursor-pointer ${
                 temperatureFilter === 'Hot' && !filterNeedsAttention
-                  ? 'bg-rose-500/20 text-rose-300 font-bold border border-rose-500/50 shadow-sm shadow-rose-500/10'
-                  : 'text-slate-400 hover:text-rose-300 hover:bg-slate-800/60'
+                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
+                  : 'text-zinc-400 hover:text-rose-300 hover:bg-zinc-900'
               }`}
             >
-              <Flame className="w-3.5 h-3.5 text-rose-400" />
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
               <span>Hot ({leads.filter((l) => l.temperature === 'Hot').length})</span>
-              <span className="text-[10px] opacity-75 hidden sm:inline">&gt;$1M</span>
             </button>
             <button
               onClick={() => {
                 setTemperatureFilter('Warm');
                 setFilterNeedsAttention(false);
               }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition cursor-pointer ${
                 temperatureFilter === 'Warm' && !filterNeedsAttention
-                  ? 'bg-amber-500/20 text-amber-300 font-bold border border-amber-500/50 shadow-sm shadow-amber-500/10'
-                  : 'text-slate-400 hover:text-amber-300 hover:bg-slate-800/60'
+                  ? 'bg-amber-500/20 text-amber-200 border border-amber-500/30'
+                  : 'text-zinc-400 hover:text-amber-200 hover:bg-zinc-900'
               }`}
             >
-              <Sun className="w-3.5 h-3.5 text-amber-400" />
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
               <span>Warm ({leads.filter((l) => l.temperature === 'Warm').length})</span>
-              <span className="text-[10px] opacity-75 hidden sm:inline">$450k+</span>
             </button>
             <button
               onClick={() => {
                 setTemperatureFilter('Cold');
                 setFilterNeedsAttention(false);
               }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition cursor-pointer ${
                 temperatureFilter === 'Cold' && !filterNeedsAttention
-                  ? 'bg-sky-500/20 text-sky-300 font-bold border border-sky-500/50 shadow-sm shadow-sky-500/10'
-                  : 'text-slate-400 hover:text-sky-300 hover:bg-slate-800/60'
+                  ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                  : 'text-zinc-400 hover:text-sky-300 hover:bg-zinc-900'
               }`}
             >
-              <Snowflake className="w-3.5 h-3.5 text-sky-400" />
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
               <span>Cold ({leads.filter((l) => l.temperature === 'Cold').length})</span>
-            </button>
-
-            {/* Needs Attention / Stale Filter Tab */}
-            <button
-              onClick={() => {
-                setFilterNeedsAttention(!filterNeedsAttention);
-                if (!filterNeedsAttention) setTemperatureFilter('All');
-              }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                filterNeedsAttention
-                  ? 'bg-amber-500 text-slate-950 font-black shadow-md shadow-amber-500/25'
-                  : 'bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 border border-amber-500/30'
-              }`}
-            >
-              <AlertTriangle className={`w-3.5 h-3.5 ${staleLeads.length > 0 ? 'text-amber-400 animate-pulse' : 'text-slate-400'}`} />
-              <span>Attention Needed ({staleLeads.length})</span>
             </button>
           </div>
 
-          {/* Search Input with quick clear */}
+          {/* Search Input */}
           <div className="relative min-w-[240px]">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search client, email, property, tag..."
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-8 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition"
+              placeholder="Search by client, property, or tag..."
+              className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg pl-8 pr-7 py-1.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#c8a97e] transition"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -535,40 +472,40 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
 
       {/* Kanban Board View */}
       {viewMode === 'kanban' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 overflow-x-auto pb-4 lg:[grid-template-columns:repeat(5,minmax(18rem,1fr))]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3.5 overflow-x-auto pb-4 lg:[grid-template-columns:repeat(5,minmax(18rem,1fr))]">
           {STAGES.map((stage) => {
             const stageLeads = filteredLeads.filter((l) => l.stage === stage);
             const stageValue = stageLeads.reduce((acc, curr) => acc + (curr.budget || 0), 0);
-            const stageColor = STAGE_COLORS[stage];
+            const dotColor = STAGE_DOTS[stage] || 'bg-zinc-400';
 
             return (
               <div
                 key={stage}
-                className="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 flex flex-col min-w-[280px] shadow-lg backdrop-blur-sm"
+                className="surface-card rounded-xl p-3.5 flex flex-col min-w-[280px]"
               >
                 {/* Column Header */}
-                <div className="flex items-center justify-between pb-3.5 border-b border-slate-800/80 mb-3.5">
+                <div className="flex items-center justify-between pb-3 border-b border-white/[0.06] mb-3">
                   <div className="flex items-center gap-2">
-                    <span className={`w-2.5 h-2.5 rounded-full ${stageColor.dot}`} />
-                    <h3 className="font-extrabold text-xs uppercase tracking-wider text-slate-200">
+                    <span className={`w-2 h-2 rounded-full ${dotColor}`} />
+                    <h3 className="font-semibold text-xs tracking-tight text-zinc-200">
                       {stage}
                     </h3>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+                    <span className="font-mono text-[10px] text-zinc-400 bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.06]">
                       ${(stageValue / 1000000).toFixed(1)}M
                     </span>
-                    <span className="text-xs bg-slate-800 text-slate-300 font-bold px-2 py-0.5 rounded-full">
+                    <span className="font-mono text-[10px] text-zinc-300 font-medium px-1.5 py-0.5 rounded bg-zinc-800">
                       {stageLeads.length}
                     </span>
                   </div>
                 </div>
 
                 {/* Cards Container */}
-                <div className="space-y-3.5 flex-1 overflow-y-auto max-h-[760px] pr-1 scrollbar-none">
+                <div className="space-y-3 flex-1 overflow-y-auto max-h-[760px] pr-0.5 scrollbar-none">
                   {stageLeads.length === 0 ? (
-                    <div className="text-center py-12 px-3 border border-dashed border-slate-800 rounded-2xl text-slate-500 text-xs">
-                      No prospects in {stage}
+                    <div className="text-center py-10 px-3 border border-dashed border-white/[0.08] rounded-lg text-zinc-500 text-xs">
+                      No prospects in this stage
                     </div>
                   ) : (
                     stageLeads.map((lead) => {
@@ -581,25 +518,25 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                       return (
                         <div
                           key={lead.id}
-                          className="bg-slate-950/70 border border-slate-800/80 hover:border-amber-500/40 rounded-2xl p-4 transition-all shadow-md hover:shadow-xl hover:shadow-black/40 group relative backdrop-blur-sm"
+                          className="bg-zinc-900/90 border border-white/[0.08] hover:border-white/[0.18] rounded-lg p-3 transition shadow-sm hover:shadow-md group relative"
                         >
                           {/* Top Row: Avatar, Name, Temperature */}
-                          <div className="flex items-start justify-between gap-2.5 mb-2.5">
-                            <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <div className="flex items-center gap-2 min-w-0">
                               <img
                                 src={lead.avatar}
                                 alt={lead.name}
-                                className="w-9 h-9 rounded-full object-cover ring-2 ring-slate-800 shrink-0"
+                                className="w-8 h-8 rounded-full object-cover ring-1 ring-white/10 shrink-0"
                               />
                               <div className="min-w-0">
                                 <h4
                                   onClick={() => onSelectLead(lead)}
-                                  className="text-sm font-bold text-white hover:text-amber-300 cursor-pointer transition truncate"
+                                  className="text-xs font-semibold text-zinc-100 hover:text-[#dfc195] cursor-pointer transition truncate"
                                   title={lead.name}
                                 >
                                   {lead.name}
                                 </h4>
-                                <span className="text-[11px] text-slate-400 block truncate">
+                                <span className="text-[10px] text-zinc-400 block truncate font-mono">
                                   {lead.phone}
                                 </span>
                               </div>
@@ -609,10 +546,10 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
 
                           {/* Stale Lead Alert Banner */}
                           {isStale && (
-                            <div className="mb-3 py-1.5 px-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-bold flex items-center justify-between gap-2 animate-in fade-in">
-                              <span className="flex items-center gap-1.5 text-[11px]">
-                                <AlertTriangle className="w-3.5 h-3.5 text-amber-400 animate-pulse flex-shrink-0" />
-                                Attention ({lead.daysSinceLastContact ? `${lead.daysSinceLastContact}d inactive` : '>7d'})
+                            <div className="mb-2 py-1 px-2 rounded bg-amber-500/10 border border-amber-500/20 text-amber-200 text-[11px] font-medium flex items-center justify-between gap-1.5">
+                              <span className="flex items-center gap-1 text-[10px]">
+                                <AlertTriangle className="w-3 h-3 text-amber-400 shrink-0" />
+                                {lead.daysSinceLastContact ? `${lead.daysSinceLastContact}d inactive` : 'Needs contact'}
                               </span>
                               {onReengageLead && (
                                 <button
@@ -620,8 +557,8 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                                     e.stopPropagation();
                                     onReengageLead(lead);
                                   }}
-                                  className="px-2 py-0.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[10px] transition cursor-pointer shadow-sm"
-                                  title="Mark contacted and resolve Needs Attention alert"
+                                  className="px-1.5 py-0.5 rounded bg-amber-400 hover:bg-amber-300 text-zinc-950 font-semibold text-[9px] transition cursor-pointer"
+                                  title="Mark contacted"
                                 >
                                   Re-engage
                                 </button>
@@ -630,77 +567,73 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                           )}
 
                           {/* Financials & Timeline */}
-                          <div className="mb-3 space-y-1.5 text-xs bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/60">
-                            <div className="flex items-center justify-between text-slate-300">
-                              <span className="text-slate-400 flex items-center gap-1">
-                                <DollarSign className="w-3.5 h-3.5 text-emerald-400" /> Budget
-                              </span>
-                              <span className="font-extrabold text-emerald-300 text-sm">
+                          <div className="mb-2.5 space-y-1 text-xs bg-black/30 p-2 rounded border border-white/[0.04]">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[11px] text-zinc-400">Budget</span>
+                              <span className="font-mono font-semibold text-emerald-400 text-xs">
                                 ${lead.budget.toLocaleString()}
                               </span>
                             </div>
-                            <div className="flex items-center justify-between text-slate-300">
-                              <span className="text-slate-400 flex items-center gap-1">
-                                <Clock className="w-3.5 h-3.5 text-amber-400" /> Timeline
-                              </span>
-                              <span className="text-slate-300 font-medium text-right truncate max-w-[130px]">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[11px] text-zinc-400">Timeline</span>
+                              <span className="text-[11px] text-zinc-300 truncate max-w-[140px] text-right">
                                 {lead.timeline}
                               </span>
                             </div>
                             {lead.preApproved && (
-                              <div className="flex items-center gap-1 text-[11px] text-emerald-400 font-semibold pt-0.5">
-                                <ShieldCheck className="w-3.5 h-3.5" /> Pre-approved Mortgage
+                              <div className="flex items-center gap-1 text-[10px] text-emerald-400 font-medium pt-0.5">
+                                <ShieldCheck className="w-3 h-3" /> Pre-approved
                               </div>
                             )}
                           </div>
 
                           {/* Property of Interest */}
                           {prop && (
-                            <div className="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-slate-800/80 text-xs">
-                              <div className="flex items-center gap-1.5 min-w-0">
-                                <Home className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                                <span className="text-slate-300 font-medium truncate">
+                            <div className="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-white/[0.06] text-xs">
+                              <div className="flex items-center gap-1 min-w-0">
+                                <Home className="w-3 h-3 text-zinc-400 shrink-0" />
+                                <span className="text-zinc-300 text-[11px] truncate">
                                   {prop.title}
                                 </span>
                               </div>
-                              <span className="text-amber-300 font-bold shrink-0">
+                              <span className="font-mono text-zinc-300 text-[11px] shrink-0">
                                 ${(prop.price / 1000).toFixed(0)}k
                               </span>
                             </div>
                           )}
 
                           {/* AI Match Score Progress */}
-                          <div className="mb-3">
-                            <div className="flex items-center justify-between text-[11px] mb-1">
-                              <span className="text-slate-400 flex items-center gap-1">
-                                <Sparkles className="w-3 h-3 text-amber-400" /> AI Intent Score
+                          <div className="mb-2.5">
+                            <div className="flex items-center justify-between text-[10px] mb-1">
+                              <span className="text-zinc-400 flex items-center gap-1">
+                                <Sparkles className="w-3 h-3 text-[#dfc195]" /> Intent Score
                               </span>
-                              <span className="font-black text-amber-300">{lead.aiScore}%</span>
+                              <span className="font-mono font-semibold text-zinc-200">{lead.aiScore}%</span>
                             </div>
-                            <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden">
+                            <div className="w-full bg-zinc-800 h-1 rounded-full overflow-hidden">
                               <div
-                                className="bg-gradient-to-r from-amber-500 to-rose-500 h-full rounded-full transition-all duration-500"
+                                className="bg-[#c8a97e] h-full rounded-full transition-all duration-300"
                                 style={{ width: `${lead.aiScore}%` }}
                               />
                             </div>
                           </div>
 
                           {/* Action Buttons */}
-                          <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/80">
+                          <div className="flex items-center justify-between gap-1 pt-1.5 border-t border-white/[0.06]">
                             <button
                               onClick={() => onStartChatWithLead(lead)}
-                              className="flex items-center gap-1 text-xs font-bold text-amber-400 hover:text-amber-300 transition cursor-pointer py-1 px-2 rounded-lg hover:bg-amber-500/10"
+                              className="flex items-center gap-1 text-[11px] font-medium text-[#dfc195] hover:text-white transition cursor-pointer py-1 px-1.5 rounded hover:bg-white/[0.04]"
                             >
-                              <MessageSquare className="w-3.5 h-3.5" />
-                              AI Chat
+                              <MessageSquare className="w-3 h-3" />
+                              Chat
                             </button>
 
                             <button
                               onClick={() => onSelectLead(lead)}
-                              className="flex items-center gap-1 text-xs font-semibold text-slate-300 hover:text-white transition cursor-pointer py-1 px-2 rounded-lg hover:bg-slate-800"
+                              className="flex items-center gap-0.5 text-[11px] font-medium text-zinc-400 hover:text-white transition cursor-pointer py-1 px-1.5 rounded hover:bg-white/[0.04]"
                             >
                               Dossier
-                              <ChevronRight className="w-3.5 h-3.5" />
+                              <ChevronRight className="w-3 h-3" />
                             </button>
 
                             {stage !== 'Closed Won' && (
@@ -711,7 +644,7 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                                     onUpdateLeadStage(lead.id, STAGES[nextIdx]);
                                   }
                                 }}
-                                className="text-xs text-slate-400 hover:text-amber-300 flex items-center gap-0.5 px-2 py-1 rounded-lg hover:bg-slate-900 border border-transparent hover:border-slate-800 transition cursor-pointer"
+                                className="text-[11px] text-zinc-400 hover:text-[#dfc195] flex items-center gap-0.5 px-1.5 py-1 rounded hover:bg-white/[0.04] transition cursor-pointer"
                                 title="Advance to next pipeline stage"
                               >
                                 <span>Advance</span>
@@ -732,22 +665,22 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
 
       {/* Table View */}
       {viewMode === 'table' && (
-        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl overflow-hidden shadow-xl backdrop-blur-xl">
+        <div className="surface-card rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-300">
-              <thead className="bg-slate-950 text-slate-400 uppercase tracking-wider text-[10px] border-b border-slate-800">
+            <table className="w-full text-left text-xs text-zinc-300">
+              <thead className="bg-zinc-950/80 text-zinc-400 uppercase tracking-wider text-[10px] border-b border-white/[0.06]">
                 <tr>
-                  <th className="py-4 px-5 font-bold">Client Name</th>
-                  <th className="py-4 px-4 font-bold">Budget Tier</th>
-                  <th className="py-4 px-4 font-bold">Budget Amount</th>
-                  <th className="py-4 px-4 font-bold">Pipeline Stage</th>
-                  <th className="py-4 px-4 font-bold">Interested Listing</th>
-                  <th className="py-4 px-4 font-bold">Timeline</th>
-                  <th className="py-4 px-4 font-bold">AI Intent Score</th>
-                  <th className="py-4 px-5 font-bold text-right">Actions</th>
+                  <th className="py-3 px-4 font-semibold">Client Name</th>
+                  <th className="py-3 px-4 font-semibold">Budget Tier</th>
+                  <th className="py-3 px-4 font-semibold">Budget (USD)</th>
+                  <th className="py-3 px-4 font-semibold">Pipeline Stage</th>
+                  <th className="py-3 px-4 font-semibold">Interested Listing</th>
+                  <th className="py-3 px-4 font-semibold">Timeline</th>
+                  <th className="py-3 px-4 font-semibold">AI Intent Score</th>
+                  <th className="py-3 px-4 font-semibold text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80">
+              <tbody className="divide-y divide-white/[0.04]">
                 {filteredLeads.map((lead) => {
                   const prop = properties.find((p) => p.id === lead.interestedPropertyId);
                   const isStale =
@@ -758,58 +691,58 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                   return (
                     <tr
                       key={lead.id}
-                      className="hover:bg-slate-800/50 transition cursor-pointer"
+                      className="hover:bg-white/[0.02] transition cursor-pointer"
                       onClick={() => onSelectLead(lead)}
                     >
-                      <td className="py-4 px-5">
-                        <div className="flex items-center gap-3">
+                      <td className="py-3 px-4">
+                        <div className="flex items-center gap-2.5">
                           <img
                             src={lead.avatar}
                             alt={lead.name}
-                            className="w-9 h-9 rounded-full object-cover ring-1 ring-slate-700"
+                            className="w-7 h-7 rounded-full object-cover ring-1 ring-white/10"
                           />
                           <div>
-                            <div className="font-bold text-white text-sm flex items-center gap-1.5">
+                            <div className="font-semibold text-zinc-100 text-xs flex items-center gap-1.5">
                               <span>{lead.name}</span>
                               {isStale && (
-                                <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] font-black">
-                                  <AlertTriangle className="w-2.5 h-2.5 text-amber-400" /> Attention
+                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30 text-[9px]">
+                                  <AlertTriangle className="w-2.5 h-2.5 text-amber-400" /> Stale
                                 </span>
                               )}
                             </div>
-                            <div className="text-slate-400 text-xs">{lead.email}</div>
+                            <div className="text-zinc-500 text-[11px] font-mono">{lead.email}</div>
                           </div>
                         </div>
                       </td>
-                      <td className="py-4 px-4">{getTemperatureBadge(lead.temperature)}</td>
-                      <td className="py-4 px-4 font-black text-emerald-300 text-sm">
+                      <td className="py-3 px-4">{getTemperatureBadge(lead.temperature)}</td>
+                      <td className="py-3 px-4 font-mono font-semibold text-emerald-400 text-xs">
                         ${lead.budget.toLocaleString()}
                       </td>
-                      <td className="py-4 px-4">
-                        <span className="px-3 py-1 rounded-xl bg-slate-800 text-slate-200 border border-slate-700 font-bold text-xs">
+                      <td className="py-3 px-4">
+                        <span className="px-2 py-0.5 rounded bg-zinc-800 text-zinc-200 border border-white/[0.06] text-[11px]">
                           {lead.stage}
                         </span>
                       </td>
-                      <td className="py-4 px-4">
+                      <td className="py-3 px-4">
                         {prop ? (
-                          <span className="text-slate-200 font-medium">{prop.title}</span>
+                          <span className="text-zinc-200 text-xs">{prop.title}</span>
                         ) : (
-                          <span className="text-slate-500">General search</span>
+                          <span className="text-zinc-500">General search</span>
                         )}
                       </td>
-                      <td className="py-4 px-4 text-slate-300">{lead.timeline}</td>
-                      <td className="py-4 px-4">
+                      <td className="py-3 px-4 text-zinc-300 text-xs">{lead.timeline}</td>
+                      <td className="py-3 px-4">
                         <div className="flex items-center gap-2">
-                          <div className="w-20 bg-slate-800 h-2 rounded-full overflow-hidden">
+                          <div className="w-16 bg-zinc-800 h-1 rounded-full overflow-hidden">
                             <div
-                              className="bg-gradient-to-r from-amber-500 to-rose-500 h-full rounded-full"
+                              className="bg-[#c8a97e] h-full rounded-full"
                               style={{ width: `${lead.aiScore}%` }}
                             />
                           </div>
-                          <span className="font-bold text-amber-300">{lead.aiScore}%</span>
+                          <span className="font-mono text-zinc-300 text-[11px]">{lead.aiScore}%</span>
                         </div>
                       </td>
-                      <td className="py-4 px-5 text-right">
+                      <td className="py-3 px-4 text-right">
                         <div className="flex items-center justify-end gap-1.5">
                           {isStale && onReengageLead && (
                             <button
@@ -817,8 +750,8 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                                 e.stopPropagation();
                                 onReengageLead(lead);
                               }}
-                              className="px-2.5 py-1 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition cursor-pointer shadow-sm"
-                              title="Mark contacted and resolve alert"
+                              className="px-2 py-1 rounded bg-amber-400 hover:bg-amber-300 text-zinc-950 font-medium text-[11px] transition cursor-pointer"
+                              title="Mark contacted"
                             >
                               Re-engage
                             </button>
@@ -828,16 +761,16 @@ export const LeadsPipeline: React.FC<LeadsPipelineProps> = ({
                               e.stopPropagation();
                               onStartChatWithLead(lead);
                             }}
-                            className="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold hover:bg-amber-500/30 transition cursor-pointer"
+                            className="px-2.5 py-1 rounded bg-zinc-800 text-[#dfc195] border border-white/[0.08] hover:bg-zinc-700 transition cursor-pointer text-[11px]"
                           >
-                            Chatbot
+                            Chat
                           </button>
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               onSelectLead(lead);
                             }}
-                            className="px-3 py-1 rounded-xl bg-slate-800 text-slate-300 hover:text-white transition cursor-pointer"
+                            className="px-2.5 py-1 rounded bg-zinc-900 text-zinc-300 hover:text-white transition cursor-pointer text-[11px]"
                           >
                             Dossier
                           </button>

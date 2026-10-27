@@ -134,72 +134,71 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
   });
 
   return (
-    <div className="space-y-5 sm:space-y-6 animate-in fade-in duration-300">
+    <div className="space-y-6 animate-in fade-in duration-200">
       {/* Header */}
-      <div className="bg-slate-900/95 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xl backdrop-blur-xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="surface-card rounded-xl p-4 sm:p-5">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div>
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center">
-                <Send className="w-5 h-5 text-amber-400" />
-              </div>
-              <h1 className="text-lg sm:text-xl font-black text-white tracking-tight">
-                Automated AI Follow-up Hub & Drip Engine
+            <div className="flex items-center gap-2">
+              <Send className="w-4 h-4 text-[#dfc195]" />
+              <h1 className="text-base sm:text-lg font-bold text-white tracking-tight">
+                Follow-up Cadence & Client Outreach
               </h1>
             </div>
-            <p className="text-xs text-slate-400 mt-1">
-              Autonomous multichannel communication: Accelerate hot buyers, nurture warm prospects, and re-engage stale leads.
+            <p className="text-xs text-zinc-400 mt-1">
+              Multichannel outbound engine: Accelerate hot buyers, nurture active warm prospects, and re-engage inactive leads.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs">
-            <span className="px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold flex items-center gap-1.5 shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              Automated Follow-up Engine Active
-            </span>
-          </div>
+          <span className="self-start md:self-auto text-xs px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-mono flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            Cadence Engine Active
+          </span>
         </div>
 
         {/* 3 Temperature Rules Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 mt-5 pt-4 border-t border-slate-800/80 text-xs">
-          <div className="p-3.5 rounded-2xl bg-gradient-to-br from-rose-950/20 to-slate-950 border border-rose-500/30 space-y-1.5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 pt-4 border-t border-white/[0.06] text-xs">
+          <div className="p-3 rounded-lg bg-zinc-900/60 border border-white/[0.06] space-y-1">
             <div className="flex items-center justify-between">
-              <span className="font-black text-rose-300 flex items-center gap-1.5">
-                <Flame className="w-4 h-4 text-rose-400" /> HOT BUYERS CADENCE
+              <span className="font-semibold text-rose-300 text-xs flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+                Hot Buyers Cadence
               </span>
-              <span className="text-[10px] bg-rose-500/20 text-rose-300 font-bold px-2 py-0.5 rounded-full">
+              <span className="font-mono text-[10px] text-zinc-400 bg-white/[0.04] px-1.5 py-0.2 rounded border border-white/[0.06]">
                 2-4 Hours
               </span>
             </div>
-            <p className="text-slate-400 text-[11px] leading-relaxed">
-              Lock in VIP tour windows, financing pre-approvals, and priority offers before buyer shifts interest.
+            <p className="text-zinc-400 text-[11px] leading-relaxed">
+              Lock in VIP tour windows, financing pre-approvals, and priority offers while interest is peaked.
             </p>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-gradient-to-br from-amber-950/20 to-slate-950 border border-amber-500/30 space-y-1.5">
+          <div className="p-3 rounded-lg bg-zinc-900/60 border border-white/[0.06] space-y-1">
             <div className="flex items-center justify-between">
-              <span className="font-black text-amber-300 flex items-center gap-1.5">
-                <Sun className="w-4 h-4 text-amber-400" /> WARM PROSPECTS CADENCE
+              <span className="font-semibold text-amber-200 text-xs flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                Warm Prospects Cadence
               </span>
-              <span className="text-[10px] bg-amber-500/20 text-amber-300 font-bold px-2 py-0.5 rounded-full">
+              <span className="font-mono text-[10px] text-zinc-400 bg-white/[0.04] px-1.5 py-0.2 rounded border border-white/[0.06]">
                 24-48 Hours
               </span>
             </div>
-            <p className="text-slate-400 text-[11px] leading-relaxed">
+            <p className="text-zinc-400 text-[11px] leading-relaxed">
               Dispatch 3D Matterport tours, neighborhood school reports, and invitations to open weekend showings.
             </p>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-gradient-to-br from-sky-950/20 to-slate-950 border border-sky-500/30 space-y-1.5">
+          <div className="p-3 rounded-lg bg-zinc-900/60 border border-white/[0.06] space-y-1">
             <div className="flex items-center justify-between">
-              <span className="font-black text-sky-300 flex items-center gap-1.5">
-                <Snowflake className="w-4 h-4 text-sky-400" /> COLD / NURTURE CADENCE
+              <span className="font-semibold text-sky-300 text-xs flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+                Nurture Cadence
               </span>
-              <span className="text-[10px] bg-sky-500/20 text-sky-300 font-bold px-2 py-0.5 rounded-full">
-                Weekly Drip
+              <span className="font-mono text-[10px] text-zinc-400 bg-white/[0.04] px-1.5 py-0.2 rounded border border-white/[0.06]">
+                7d Drip
               </span>
             </div>
-            <p className="text-slate-400 text-[11px] leading-relaxed">
+            <p className="text-zinc-400 text-[11px] leading-relaxed">
               Automated price reductions and new listings alert matching client's initial budget ceiling.
             </p>
           </div>
@@ -207,17 +206,17 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
       </div>
 
       {/* Main 2-Column Studio: Composer on Left, Feed on Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
         {/* Left: AI Follow-up Studio */}
-        <div className="bg-slate-900/95 border border-slate-800 rounded-3xl p-5 shadow-2xl backdrop-blur-xl space-y-4">
-          <div className="flex items-center justify-between pb-3.5 border-b border-slate-800">
+        <div className="surface-card rounded-xl p-4 sm:p-5 space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-amber-400" />
-              <h3 className="text-sm font-black text-white uppercase tracking-wider">
-                AI Follow-up Studio
+              <Sparkles className="w-3.5 h-3.5 text-[#dfc195]" />
+              <h3 className="text-xs font-semibold text-white uppercase tracking-wider">
+                Follow-up Composer
               </h3>
             </div>
-            <span className="text-xs text-amber-300 font-bold bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
+            <span className="text-[10px] font-mono text-zinc-400 bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.06]">
               Gemini 3.8 Flash
             </span>
           </div>
@@ -225,14 +224,14 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
           {/* Client & Channel Selectors */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div>
-              <label className="block font-bold text-slate-300 mb-1.5">Target Client *</label>
+              <label className="block font-medium text-zinc-300 mb-1">Target Client *</label>
               <select
                 value={selectedLeadId}
                 onChange={(e) => {
                   setSelectedLeadId(e.target.value);
                   setMessage('');
                 }}
-                className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-3 py-2.5 text-white focus:outline-none focus:border-amber-500 font-medium"
+                className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#c8a97e]"
               >
                 {leads.map((l) => (
                   <option key={l.id} value={l.id}>
@@ -243,21 +242,17 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
             </div>
 
             <div>
-              <label className="block font-bold text-slate-300 mb-1.5">Delivery Channel *</label>
-              <div className="grid grid-cols-3 gap-1 bg-slate-950 p-1 rounded-2xl border border-slate-800">
+              <label className="block font-medium text-zinc-300 mb-1">Delivery Channel *</label>
+              <div className="grid grid-cols-3 gap-1 bg-zinc-900 p-0.5 rounded-lg border border-white/[0.08]">
                 {(['WhatsApp', 'SMS', 'Email'] as Channel[]).map((c) => (
                   <button
                     key={c}
                     type="button"
                     onClick={() => setChannel(c)}
-                    className={`py-1.5 rounded-xl text-center font-bold text-xs transition cursor-pointer ${
+                    className={`py-1 rounded-md text-center text-xs font-medium transition cursor-pointer ${
                       channel === c
-                        ? c === 'WhatsApp'
-                          ? 'bg-emerald-500 text-slate-950 shadow-md'
-                          : c === 'SMS'
-                          ? 'bg-indigo-500 text-white shadow-md'
-                          : 'bg-amber-500 text-slate-950 shadow-md'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-zinc-800 text-white shadow-sm'
+                        : 'text-zinc-400 hover:text-white'
                     }`}
                   >
                     {c}
@@ -269,27 +264,27 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
 
           {/* Client Insight Bar */}
           {selectedLead && (
-            <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800 text-xs flex items-center justify-between">
+            <div className="p-3 rounded-lg bg-zinc-900/60 border border-white/[0.06] text-xs flex items-center justify-between">
               <div>
-                <span className="font-bold text-white text-sm">{selectedLead.name}</span>
-                <span className="text-slate-400 text-[11px] block mt-0.5">
-                  Budget: <strong className="text-emerald-300">${selectedLead.budget.toLocaleString()}</strong> • Timeline: {selectedLead.timeline}
+                <span className="font-semibold text-white text-xs">{selectedLead.name}</span>
+                <span className="text-zinc-400 text-[11px] block mt-0.5">
+                  Budget: <strong className="font-mono text-emerald-400">${selectedLead.budget.toLocaleString()}</strong> • Timeline: {selectedLead.timeline}
                 </span>
               </div>
               <div>
                 {selectedLead.temperature === 'Hot' && (
-                  <span className="text-xs font-black text-rose-300 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/40">
-                    🔥 Hot Lead
+                  <span className="text-[11px] font-medium text-rose-300 px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20">
+                    Hot Lead
                   </span>
                 )}
                 {selectedLead.temperature === 'Warm' && (
-                  <span className="text-xs font-black text-amber-300 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40">
-                    🌤️ Warm Prospect
+                  <span className="text-[11px] font-medium text-amber-200 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
+                    Warm Prospect
                   </span>
                 )}
                 {selectedLead.temperature === 'Cold' && (
-                  <span className="text-xs font-black text-sky-300 px-3 py-1 rounded-full bg-sky-500/20 border border-sky-500/40">
-                    ❄️ Cold Lead
+                  <span className="text-[11px] font-medium text-sky-300 px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20">
+                    Cold Lead
                   </span>
                 )}
               </div>
@@ -299,11 +294,11 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
           {/* Tone & Goal Selectors */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div>
-              <label className="block font-bold text-slate-300 mb-1.5">Tone of Voice</label>
+              <label className="block font-medium text-zinc-300 mb-1">Tone</label>
               <select
                 value={tone}
                 onChange={(e) => setTone(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-3 py-2.5 text-white focus:outline-none focus:border-amber-500 font-medium"
+                className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#c8a97e]"
               >
                 <option value="Urgent & Exclusive VIP">Urgent & Exclusive VIP</option>
                 <option value="Warm & Proactive">Warm & Proactive</option>
@@ -313,11 +308,11 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
             </div>
 
             <div>
-              <label className="block font-bold text-slate-300 mb-1.5">Campaign Goal</label>
+              <label className="block font-medium text-zinc-300 mb-1">Objective</label>
               <select
                 value={goal}
                 onChange={(e) => setGoal(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-3 py-2.5 text-white focus:outline-none focus:border-amber-500 font-medium"
+                className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#c8a97e]"
               >
                 <option value="Suggest available viewing slots">Suggest available viewing slots</option>
                 <option value="Share 3D Matterport virtual tour">Share 3D Matterport virtual tour</option>
@@ -331,64 +326,64 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
           <button
             onClick={handleGenerateAI}
             disabled={isGenerating}
-            className="w-full py-3 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-xs shadow-lg shadow-amber-500/20 transition flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-2.5 rounded-lg bg-[#c8a97e] hover:bg-[#dfc195] disabled:opacity-40 text-zinc-950 font-semibold text-xs shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <Sparkles className="w-4 h-4 stroke-[2.5]" />
-            <span>{isGenerating ? 'AI Crafting Tailored Proposal...' : 'Generate Follow-Up with AI'}</span>
+            <Sparkles className="w-3.5 h-3.5 stroke-[2.2]" />
+            <span>{isGenerating ? 'Drafting Proposal...' : 'Generate Follow-Up with AI'}</span>
           </button>
 
           {/* Message Preview & Editor */}
           {channel === 'Email' && (
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1">Subject Line</label>
+              <label className="block text-xs font-medium text-zinc-300 mb-1">Subject Line</label>
               <input
                 type="text"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
                 placeholder="Email Subject Line"
-                className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
+                className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#c8a97e]"
               />
             </div>
           )}
 
           <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-bold text-slate-300">
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-xs font-medium text-zinc-300">
                 Drafted Message ({channel})
               </label>
-              <span className="text-[11px] text-slate-400 font-semibold">{message.length} characters</span>
+              <span className="font-mono text-[10px] text-zinc-500">{message.length} chars</span>
             </div>
             <textarea
               rows={6}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="Click 'Generate Follow-Up with AI' above or write custom message..."
-              className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 leading-relaxed font-sans"
+              placeholder="Click 'Generate Follow-Up with AI' above or draft custom message..."
+              className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg p-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#c8a97e] leading-relaxed font-sans"
             />
           </div>
 
           {/* Dispatch Button */}
-          <div className="flex items-center justify-between pt-2">
-            <span className="text-[11px] text-slate-400">
-              Gateway: <strong className="text-slate-300">{channel} Business API</strong>
+          <div className="flex items-center justify-between pt-1">
+            <span className="text-[11px] text-zinc-500">
+              Gateway: <span className="text-zinc-400">{channel} Business API</span>
             </span>
             <button
               onClick={handleSendAndSimulate}
               disabled={!message.trim() || isSimulatingSend}
-              className="px-5 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-slate-950 font-black text-xs shadow-lg shadow-emerald-500/20 transition flex items-center gap-1.5 cursor-pointer"
+              className="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 text-zinc-950 font-semibold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-sm"
             >
-              <Send className="w-4 h-4 stroke-[2.5]" />
+              <Send className="w-3.5 h-3.5 stroke-[2.2]" />
               <span>{isSimulatingSend ? 'Simulating Response...' : 'Send & Simulate Reply'}</span>
             </button>
           </div>
         </div>
 
         {/* Right: Live Follow-Up Activity Feed */}
-        <div className="bg-slate-900/95 border border-slate-800 rounded-3xl p-5 shadow-2xl backdrop-blur-xl flex flex-col lg:min-h-[660px]">
-          <div className="flex items-center justify-between pb-3.5 border-b border-slate-800 mb-4">
+        <div className="surface-card rounded-xl p-4 sm:p-5 flex flex-col lg:min-h-[640px]">
+          <div className="flex items-center justify-between pb-3 border-b border-white/[0.06] mb-3.5">
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-amber-400" />
-              <h3 className="text-sm font-black text-white uppercase tracking-wider">
+              <Clock className="w-3.5 h-3.5 text-[#dfc195]" />
+              <h3 className="text-xs font-semibold text-white uppercase tracking-wider">
                 Follow-up Activity Feed
               </h3>
             </div>
@@ -398,8 +393,8 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
                 <button
                   key={t}
                   onClick={() => setFilterTemp(t)}
-                  className={`px-2.5 py-1 rounded-xl font-bold transition cursor-pointer ${
-                    filterTemp === t ? 'bg-amber-500 text-slate-950 shadow-sm' : 'text-slate-400 hover:text-white'
+                  className={`px-2 py-0.5 rounded text-xs transition cursor-pointer ${
+                    filterTemp === t ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
                   }`}
                 >
                   {t}
@@ -409,73 +404,73 @@ export const FollowUpHub: React.FC<FollowUpHubProps> = ({
           </div>
 
           {/* Stream list */}
-          <div className="space-y-3 flex-1 overflow-y-auto max-h-[640px] pr-1 scrollbar-none">
+          <div className="space-y-3 flex-1 overflow-y-auto max-h-[600px] pr-0.5 scrollbar-none">
             {filteredActivities.length === 0 ? (
-              <div className="text-center py-20 text-slate-500 text-xs">
-                No follow-ups recorded yet. Generate one on the left!
+              <div className="text-center py-16 text-zinc-500 text-xs">
+                No follow-ups recorded yet. Generate one on the left.
               </div>
             ) : (
               filteredActivities.map((act) => (
                 <div
                   key={act.id}
-                  className="bg-slate-950/80 border border-slate-800/80 hover:border-slate-700 rounded-2xl p-4 text-xs space-y-2.5 shadow-md transition"
+                  className="bg-zinc-900/80 border border-white/[0.06] hover:border-white/[0.12] rounded-lg p-3 text-xs space-y-2 transition shadow-sm"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-white text-sm">{act.leadName}</span>
-                      <span className="text-[10px] text-slate-400 bg-slate-900 px-2 py-0.5 rounded-full border border-slate-800">
+                      <span className="font-semibold text-white text-xs">{act.leadName}</span>
+                      <span className="text-[10px] text-zinc-400 bg-white/[0.04] px-1.5 py-0.2 rounded border border-white/[0.06]">
                         {act.channel}
                       </span>
                       {act.leadTemperature === 'Hot' && (
-                        <span className="text-[10px] font-bold text-rose-300 px-2 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/40">
+                        <span className="text-[10px] font-medium text-rose-300 px-1.5 py-0.2 rounded bg-rose-500/10 border border-rose-500/20">
                           Hot
                         </span>
                       )}
                       {act.leadTemperature === 'Warm' && (
-                        <span className="text-[10px] font-bold text-amber-300 px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40">
+                        <span className="text-[10px] font-medium text-amber-200 px-1.5 py-0.2 rounded bg-amber-500/10 border border-amber-500/20">
                           Warm
                         </span>
                       )}
                       {act.leadTemperature === 'Cold' && (
-                        <span className="text-[10px] font-bold text-sky-300 px-2 py-0.5 rounded-full bg-sky-500/20 border border-sky-500/40">
+                        <span className="text-[10px] font-medium text-sky-300 px-1.5 py-0.2 rounded bg-sky-500/10 border border-sky-500/20">
                           Cold
                         </span>
                       )}
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] text-slate-500">{act.sentAt}</span>
+                      <span className="font-mono text-[10px] text-zinc-500">{act.sentAt}</span>
                       <button
                         onClick={() => handleCopy(act.message, act.id)}
-                        className="text-slate-400 hover:text-white p-1"
+                        className="text-zinc-400 hover:text-white p-0.5 cursor-pointer"
                         title="Copy text"
                       >
                         {copiedId === act.id ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                          <Check className="w-3 h-3 text-emerald-400" />
                         ) : (
-                          <Copy className="w-3.5 h-3.5" />
+                          <Copy className="w-3 h-3" />
                         )}
                       </button>
                     </div>
                   </div>
 
                   {act.subject && (
-                    <p className="font-bold text-slate-200 text-xs">
+                    <p className="font-medium text-zinc-200 text-xs">
                       Subject: {act.subject}
                     </p>
                   )}
 
-                  <p className="text-slate-300 whitespace-pre-line bg-slate-900/70 p-3 rounded-xl border border-slate-800/80 leading-relaxed text-xs font-mono">
+                  <p className="text-zinc-300 whitespace-pre-line bg-black/20 p-2.5 rounded border border-white/[0.04] leading-relaxed text-xs">
                     {act.message}
                   </p>
 
                   {/* Simulated Client Reply if Present */}
                   {act.clientReply && (
-                    <div className="bg-emerald-500/10 border border-emerald-500/30 p-3 rounded-xl space-y-1 animate-in fade-in">
-                      <div className="flex items-center gap-1.5 text-emerald-400 font-bold text-xs">
-                        <CheckCircle2 className="w-4 h-4" />
-                        Buyer Replied Back:
+                    <div className="bg-emerald-500/10 border border-emerald-500/20 p-2.5 rounded space-y-0.5 animate-in fade-in">
+                      <div className="flex items-center gap-1.5 text-emerald-300 font-medium text-[11px]">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                        Buyer Response:
                       </div>
-                      <p className="text-emerald-200 text-xs font-medium">
+                      <p className="text-emerald-100 text-xs">
                         "{act.clientReply}"
                       </p>
                     </div>

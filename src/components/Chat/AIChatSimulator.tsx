@@ -19,7 +19,10 @@ import {
   RefreshCw,
   MapPin,
   ChevronRight,
-  TrendingUp,
+  Receipt,
+  Maximize2,
+  GraduationCap,
+  CalendarCheck,
 } from 'lucide-react';
 import { Property, Lead, ChatMessage, AppointmentSlot, LeadTemperature } from '../../types/realEstate';
 
@@ -47,7 +50,7 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
       id: 'init-1',
       leadId: activeLead?.id || 'demo-lead',
       sender: 'ai',
-      text: `Hello! Welcome to **EstateFlow Luxury Real Estate**. I am your autonomous AI property concierge for **${selectedProperty.title}**.\n\nI have complete architectural blueprints, HOA fee schedules, mortgage formulas, and real-time viewing availability.\n\nHow can I assist your property search today?`,
+      text: `Hello! Welcome to EstateFlow Luxury Real Estate. I am your property sales concierge for **${selectedProperty.title}**.\n\nI have complete architectural specifications, HOA schedules, mortgage breakdowns, and verified tour availability.\n\nHow can I assist your inquiry today?`,
       timestamp: 'Just now',
       suggestedSlots: [],
       propertyId: selectedProperty.id,
@@ -76,7 +79,6 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
     previousMessageCount.current = messages.length;
   }, [messages]);
 
-  // When property selection changes, greet client with new property context
   const handlePropertyChange = (prop: Property) => {
     onSelectProperty(prop);
     setConfirmedSlot(null);
@@ -84,7 +86,7 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
       id: `prop-switch-${Date.now()}`,
       leadId: activeLead?.id || 'demo-lead',
       sender: 'ai',
-      text: `You are now inquiring about **${prop.title}** in ${prop.location} listed at **$${prop.price.toLocaleString()}**.\n\nIt features **${prop.bedrooms} beds, ${prop.bathrooms} baths, and ${prop.sqft.toLocaleString()} sq ft**.\n\nAsk me anything regarding property details, down payment estimates, or available viewing slots!`,
+      text: `You are now viewing **${prop.title}** in ${prop.location} listed at **$${prop.price.toLocaleString()}**.\n\nFeaturing **${prop.bedrooms} beds, ${prop.bathrooms} baths, and ${prop.sqft.toLocaleString()} sq ft**.\n\nAsk me about down payments, monthly HOA, or available viewing windows.`,
       timestamp: 'Just now',
       propertyId: prop.id,
     };
@@ -99,8 +101,8 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
       id: `user-${Date.now()}`,
       leadId: activeLead?.id || 'demo-lead',
       sender: 'user',
-      text: textToSend.trim(),
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      text: textToSend,
+      timestamp: 'Just now',
       propertyId: selectedProperty.id,
     };
 
@@ -117,55 +119,63 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
           property: selectedProperty,
           lead: activeLead,
           allProperties: properties,
-          history: messages.slice(-5),
+          history: messages.slice(-6).map((m) => ({
+            role: m.sender === 'ai' ? 'model' : 'user',
+            parts: [{ text: m.text }],
+          })),
         }),
       });
 
       const data = await response.json();
+      const aiReply = data.reply || "I'd be pleased to arrange a private viewing for this listing.";
+      const detectedBudget = data.detectedBudget;
+      const leadTemperature = data.leadTemperature;
+      const extractedIntent = data.extractedIntent;
+      const slots = data.suggestedSlots || [];
+
+      if (detectedBudget) setLastDetectedBudget(detectedBudget);
+      if (leadTemperature) setCurrentTemperature(leadTemperature);
+      if (extractedIntent) setLastIntent(extractedIntent);
 
       const aiMsg: ChatMessage = {
         id: `ai-${Date.now()}`,
         leadId: activeLead?.id || 'demo-lead',
         sender: 'ai',
-        text: data.reply || 'Thank you for your interest! Let me check the schedule for you.',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        suggestedSlots: data.suggestedSlots || [],
-        detectedBudget: data.detectedBudget,
-        leadTemperature: data.leadTemperature,
+        text: aiReply,
+        timestamp: 'Just now',
+        suggestedSlots: slots,
         propertyId: selectedProperty.id,
       };
 
       setMessages((prev) => [...prev, aiMsg]);
 
-      if (data.detectedBudget) {
-        setLastDetectedBudget(data.detectedBudget);
-      }
-      if (data.leadTemperature) {
-        setCurrentTemperature(data.leadTemperature);
-      }
-      if (data.extractedIntent) {
-        setLastIntent(data.extractedIntent);
-      }
-
-      if (activeLead) {
+      if (activeLead && (detectedBudget || leadTemperature)) {
         const updatedLead: Lead = {
           ...activeLead,
-          budget: data.detectedBudget || activeLead.budget,
-          temperature: data.leadTemperature || activeLead.temperature,
-          interestedPropertyId: selectedProperty.id,
-          lastContactAt: 'Just now',
-          aiScore:
-            data.leadTemperature === 'Hot'
-              ? Math.max(activeLead.aiScore, 96)
-              : data.leadTemperature === 'Warm'
-              ? Math.max(activeLead.aiScore, 82)
-              : activeLead.aiScore,
-          aiSummary: `Client chatted about ${selectedProperty.title}. Intent: ${data.extractedIntent || 'Inquiry'}. Tier: ${data.leadTemperature || activeLead.temperature}.`,
+          budget: detectedBudget || activeLead.budget,
+          temperature: leadTemperature || activeLead.temperature,
+          stage: slots.length > 0 ? 'Viewing Scheduled' : 'AI Engaged',
+          aiScore: leadTemperature === 'Hot' ? 98 : leadTemperature === 'Warm' ? 84 : 45,
+          aiSummary: `Discussed ${selectedProperty.title}. Intent: ${extractedIntent || 'Inquiry'}. Extracted budget: $${(detectedBudget || activeLead.budget).toLocaleString()}`,
+          temperatureRationale: `AI detected ${leadTemperature || activeLead.temperature} signals during conversation.`,
         };
         onLeadUpdated(updatedLead);
       }
     } catch (err) {
-      console.error('Chat error:', err);
+      console.warn('Backend conversational assistant error:', err);
+      const fallbackAiMsg: ChatMessage = {
+        id: `ai-err-${Date.now()}`,
+        leadId: activeLead?.id || 'demo-lead',
+        sender: 'ai',
+        text: `Thank you for your question regarding **${selectedProperty.title}**. The property is listed at **$${selectedProperty.price.toLocaleString()}** with ${selectedProperty.bedrooms} bedrooms and ${selectedProperty.sqft.toLocaleString()} sq ft.\n\nOur broker **${selectedProperty.agentName}** has viewing windows available tomorrow at 10:30 AM or 2:00 PM. Would you like me to book either slot for you?`,
+        timestamp: 'Just now',
+        suggestedSlots: [
+          'Tomorrow at 10:30 AM (In-person Guided Tour)',
+          'Tomorrow at 2:00 PM (Senior Agent Walkthrough)',
+        ],
+        propertyId: selectedProperty.id,
+      };
+      setMessages((prev) => [...prev, fallbackAiMsg]);
     } finally {
       setIsLoading(false);
     }
@@ -174,28 +184,15 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
   const handleSelectSlot = (slotString: string) => {
     setConfirmedSlot(slotString);
 
-    const confirmUserMsg: ChatMessage = {
-      id: `user-confirm-${Date.now()}`,
-      leadId: activeLead?.id || 'demo-lead',
-      sender: 'user',
-      text: `I confirm the tour slot: "${slotString}". Please reserve it on my calendar.`,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      propertyId: selectedProperty.id,
-    };
-
-    const confirmAiMsg: ChatMessage = {
-      id: `ai-confirm-${Date.now()}`,
+    const confirmationMsg: ChatMessage = {
+      id: `confirm-${Date.now()}`,
       leadId: activeLead?.id || 'demo-lead',
       sender: 'ai',
-      text: `🎉 **Viewing Slot Confirmed!**\n\n- **Reserved Window:** ${slotString}\n- **Property:** ${selectedProperty.title} (${selectedProperty.address})\n- **Assigned Host Agent:** ${selectedProperty.agentName} (${selectedProperty.agentPhone})\n- **Status:** Added to agency viewing calendar & calendar invite dispatched.\n\nWe look forward to welcoming you!`,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      text: `Appointment confirmed: **${slotString}** for **${selectedProperty.title}**.\n\nA calendar invite has been dispatched to host agent **${selectedProperty.agentName}**. Your dossier has been prioritized to **Hot VIP** tier.`,
+      timestamp: 'Just now',
       propertyId: selectedProperty.id,
-      leadTemperature: 'Hot',
     };
-
-    setMessages((prev) => [...prev, confirmUserMsg, confirmAiMsg]);
-    setCurrentTemperature('Hot');
-    setLastIntent('Viewing Confirmed');
+    setMessages((prev) => [...prev, confirmationMsg]);
 
     const newAppointment: AppointmentSlot = {
       id: `slot-${Date.now()}`,
@@ -210,7 +207,7 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
       agentName: selectedProperty.agentName,
       meetingType: 'VIP Private Showing',
       status: 'Confirmed',
-      notes: `Confirmed via AI Chatbot for ${selectedProperty.title}. Lead tier upgraded to Hot.`,
+      notes: `Confirmed via AI Concierge for ${selectedProperty.title}.`,
       confirmedAt: new Date().toISOString(),
     };
     onAppointmentBooked(newAppointment);
@@ -222,70 +219,63 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
         temperature: 'Hot',
         aiScore: 98,
         aiSummary: `Appointment booked for ${slotString} at ${selectedProperty.title}. Lead upgraded to Hot VIP tier.`,
-        temperatureRationale: 'Confirmed viewing slot via AI chatbot and expressed immediate intent.',
+        temperatureRationale: 'Confirmed viewing slot via AI concierge with immediate intent.',
       });
     }
   };
 
   const quickPrompts = [
-    { label: '💰 Price & HOA Breakdown', text: `What is the price, HOA fees, and monthly mortgage for ${selectedProperty.title}?` },
-    { label: '📐 Exact Floor Plan & Sq Ft', text: `Can you give me the exact bedrooms, bathrooms, and square footage details for ${selectedProperty.title}?` },
-    { label: '🏫 Schools & Neighborhood', text: `What are the nearby school ratings and neighborhood amenities around ${selectedProperty.title}?` },
-    { label: '🗓️ I have $1.5M cash, can I tour tomorrow?', text: `My budget is $1.5M cash, I am relocating soon. What available viewing slots do you have tomorrow?` },
+    { label: 'Price & HOA Breakdown', icon: Receipt, text: `What is the price, HOA fees, and monthly mortgage for ${selectedProperty.title}?` },
+    { label: 'Floor Plan & Specs', icon: Maximize2, text: `Can you give me the exact bedrooms, bathrooms, and square footage details for ${selectedProperty.title}?` },
+    { label: 'Schools & Vicinity', icon: GraduationCap, text: `What are the nearby school ratings and neighborhood amenities around ${selectedProperty.title}?` },
+    { label: 'Book Viewing ($1.5M Cash)', icon: CalendarCheck, text: `My budget is $1.5M cash, I am relocating soon. What available viewing slots do you have tomorrow?` },
   ];
 
   return (
-    <div className="space-y-5 sm:space-y-6 animate-in fade-in duration-300">
+    <div className="space-y-5 animate-in fade-in duration-200">
       {/* Property Selector Bar */}
-      <div className="bg-slate-900/95 border border-slate-800 rounded-3xl p-4 sm:p-5 shadow-xl backdrop-blur-xl">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3.5">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center">
-              <Building2 className="w-4 h-4" />
-            </div>
-            <div>
-              <h2 className="text-xs font-black uppercase tracking-wider text-slate-200">
-                Active Listing Context
-              </h2>
-              <p className="text-[11px] text-slate-400">
-                Switch properties to inject custom specifications into the conversational AI
-              </p>
-            </div>
+      <div className="surface-card rounded-xl p-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-3">
+          <div className="flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-[#dfc195]" />
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-200">
+              Active Listing Context
+            </h2>
           </div>
-          <span className="text-xs font-bold text-amber-300 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
-            Current: {selectedProperty.title}
+          <span className="text-xs font-mono font-medium text-[#dfc195] bg-[#c8a97e]/10 px-2.5 py-0.5 rounded border border-[#c8a97e]/20 self-start sm:self-auto">
+            {selectedProperty.title}
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
           {properties.map((prop) => {
             const isSelected = selectedProperty.id === prop.id;
             return (
               <button
                 key={prop.id}
                 onClick={() => handlePropertyChange(prop)}
-                className={`p-2.5 rounded-2xl text-left border transition-all cursor-pointer flex flex-col justify-between group ${
+                className={`p-2 rounded-lg text-left border transition cursor-pointer flex flex-col justify-between group ${
                   isSelected
-                    ? 'bg-amber-500/15 border-amber-500/60 shadow-lg shadow-amber-500/10 ring-1 ring-amber-500/50'
-                    : 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700 hover:bg-slate-900/60'
+                    ? 'bg-zinc-850 border-[#c8a97e]/60 ring-1 ring-[#c8a97e]/30'
+                    : 'bg-zinc-900/60 border-white/[0.06] hover:border-white/[0.14] hover:bg-zinc-900'
                 }`}
               >
-                <div className="relative w-full h-18 rounded-xl overflow-hidden mb-2">
+                <div className="relative w-full h-16 rounded overflow-hidden mb-1.5">
                   <img
                     src={prop.imageUrl}
                     alt={prop.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                   />
                   {isSelected && (
-                    <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-amber-400 ring-2 ring-slate-950" />
+                    <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#dfc195] ring-2 ring-black" />
                   )}
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-white truncate">{prop.title}</p>
-                  <p className="text-xs font-black text-amber-300 mt-0.5">
+                  <p className="text-xs font-medium text-white truncate">{prop.title}</p>
+                  <p className="font-mono text-xs font-semibold text-emerald-400 mt-0.5">
                     ${(prop.price / 1000).toFixed(0)}k
                   </p>
-                  <p className="text-[10px] text-slate-400 mt-0.5">
+                  <p className="text-[10px] text-zinc-400 mt-0.5">
                     {prop.bedrooms}B • {prop.sqft.toLocaleString()} sqft
                   </p>
                 </div>
@@ -296,112 +286,108 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
       </div>
 
       {/* Main Layout: Chat Window + Real-time AI Intelligence Inspector */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
         {/* Left 2 Cols: Client Chatbot Window */}
-        <div className="lg:col-span-2 bg-slate-900/95 border border-slate-800 rounded-3xl flex flex-col shadow-2xl backdrop-blur-xl overflow-hidden min-h-[min(650px,calc(100dvh-11rem))] lg:h-[calc(100dvh-12rem)] lg:min-h-[660px]">
+        <div className="lg:col-span-2 surface-card rounded-xl flex flex-col overflow-hidden min-h-[min(620px,calc(100dvh-12rem))] lg:h-[calc(100dvh-13rem)] lg:min-h-[640px]">
           {/* Chat Header */}
-          <div className="p-4 sm:p-5 bg-slate-950/90 border-b border-slate-800/90 flex items-center justify-between">
+          <div className="p-3.5 sm:p-4 bg-zinc-950/80 border-b border-white/[0.06] flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-rose-600 flex items-center justify-center text-slate-950 font-bold shadow-md shadow-amber-500/20">
-                  <Bot className="w-5 h-5 text-slate-950" />
-                </div>
-                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-slate-950 rounded-full" />
+              <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-white/[0.1] flex items-center justify-center text-[#dfc195]">
+                <Bot className="w-4 h-4 stroke-[2]" />
               </div>
 
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-black text-white">EstateFlow AI Sales Specialist</h3>
-                  <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">
-                    Online • 24/7 Concierge
+                  <h3 className="text-xs font-semibold text-white">EstateFlow Sales Concierge</h3>
+                  <span className="text-[10px] bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-2 py-0.2 rounded font-mono">
+                    Online
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-400">
-                  Discussing: <span className="text-amber-300 font-bold">{selectedProperty.title}</span> • Host Agent: {selectedProperty.agentName}
+                <p className="text-[11px] text-zinc-400">
+                  Listing: <span className="text-zinc-200 font-medium">{selectedProperty.title}</span> • Host: {selectedProperty.agentName}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => {
-                  setMessages([
-                    {
-                      id: `init-${Date.now()}`,
-                      leadId: activeLead?.id || 'demo-lead',
-                      sender: 'ai',
-                      text: `Hello! I am ready to answer any questions about **${selectedProperty.title}** or provide available tour slots.`,
-                      timestamp: 'Just now',
-                      propertyId: selectedProperty.id,
-                    },
-                  ]);
-                  setConfirmedSlot(null);
-                }}
-                className="text-xs text-slate-400 hover:text-white flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 border border-slate-700 transition cursor-pointer"
-                title="Reset conversation"
-              >
-                <RefreshCw className="w-3.5 h-3.5" />
-                <span>Reset</span>
-              </button>
-            </div>
+            <button
+              onClick={() => {
+                setMessages([
+                  {
+                    id: `init-${Date.now()}`,
+                    leadId: activeLead?.id || 'demo-lead',
+                    sender: 'ai',
+                    text: `Hello! I am ready to answer any questions about **${selectedProperty.title}** or provide available tour slots.`,
+                    timestamp: 'Just now',
+                    propertyId: selectedProperty.id,
+                  },
+                ]);
+                setConfirmedSlot(null);
+              }}
+              className="text-xs text-zinc-400 hover:text-white flex items-center gap-1 px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 border border-white/[0.08] transition cursor-pointer"
+              title="Reset conversation"
+            >
+              <RefreshCw className="w-3 h-3" />
+              <span className="text-[11px]">Reset</span>
+            </button>
           </div>
 
           {/* Quick Prompters Bar */}
-          <div className="bg-slate-950/60 p-2.5 border-b border-slate-800/80 flex items-center gap-2 overflow-x-auto scrollbar-none">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider shrink-0 flex items-center gap-1 pl-1">
-              <Zap className="w-3.5 h-3.5 text-amber-400" /> Prompts:
-            </span>
-            {quickPrompts.map((q, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleSendMessage(q.text)}
-                className="text-[11px] px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/80 whitespace-nowrap transition cursor-pointer font-medium hover:border-amber-500/40"
-              >
-                {q.label}
-              </button>
-            ))}
+          <div className="bg-zinc-950/50 p-2 border-b border-white/[0.06] flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+            {quickPrompts.map((q, idx) => {
+              const Icon = q.icon;
+              return (
+                <button
+                  key={idx}
+                  onClick={() => handleSendMessage(q.text)}
+                  className="flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/[0.06] whitespace-nowrap transition cursor-pointer font-medium"
+                >
+                  <Icon className="w-3 h-3 text-zinc-400" />
+                  <span>{q.label}</span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Chat Messages Body */}
-          <div ref={messagesPaneRef} className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 bg-slate-950/30">
+          <div ref={messagesPaneRef} className="flex-1 overflow-y-auto p-4 space-y-3.5 bg-black/20">
             {messages.map((msg) => {
               const isAi = msg.sender === 'ai';
               return (
                 <div
                   key={msg.id}
-                  className={`flex items-start gap-3 ${isAi ? 'justify-start' : 'justify-end'}`}
+                  className={`flex items-start gap-2.5 ${isAi ? 'justify-start' : 'justify-end'}`}
                 >
                   {isAi && (
-                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center shrink-0 text-slate-950 mt-1 shadow-sm">
-                      <Bot className="w-4 h-4 text-slate-950" />
+                    <div className="w-7 h-7 rounded bg-zinc-900 border border-white/[0.08] flex items-center justify-center shrink-0 text-[#dfc195] mt-0.5">
+                      <Bot className="w-3.5 h-3.5" />
                     </div>
                   )}
 
                   <div
-                    className={`max-w-[85%] sm:max-w-[78%] rounded-3xl p-4 shadow-md ${
+                    className={`max-w-[85%] sm:max-w-[78%] rounded-xl p-3.5 shadow-sm ${
                       isAi
-                        ? 'bg-slate-900/90 border border-slate-800 text-slate-200 backdrop-blur-md'
-                        : 'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 font-semibold shadow-amber-500/10'
+                        ? 'bg-[#141720] border border-white/[0.08] text-zinc-200'
+                        : 'bg-zinc-800 border border-white/[0.1] text-zinc-100'
                     }`}
                   >
-                    <div className="flex items-center justify-between gap-4 mb-1.5 text-[10px] opacity-75">
-                      <span className="font-extrabold uppercase tracking-wider">
-                        {isAi ? 'EstateFlow AI Specialist' : activeLead ? activeLead.name : 'Client'}
+                    <div className="flex items-center justify-between gap-4 mb-1 text-[10px] text-zinc-400">
+                      <span className="font-medium tracking-tight">
+                        {isAi ? 'Sales Concierge' : activeLead ? activeLead.name : 'Client'}
                       </span>
-                      <span>{msg.timestamp}</span>
+                      <span className="font-mono text-[9px]">{msg.timestamp}</span>
                     </div>
 
-                    {/* Message Body with Markdown styling */}
+                    {/* Message Body */}
                     <div className="text-xs sm:text-[13px] leading-relaxed whitespace-pre-line font-normal">
                       {msg.text}
                     </div>
 
                     {/* Suggested Slots Interactive Booking Cards */}
                     {msg.suggestedSlots && msg.suggestedSlots.length > 0 && (
-                      <div className="mt-3.5 pt-3.5 border-t border-slate-800/80 space-y-2">
-                        <p className="text-[11px] font-bold text-amber-300 flex items-center gap-1.5">
-                          <Calendar className="w-3.5 h-3.5 text-amber-400" />
-                          Tap an available slot to instantly reserve on calendar:
+                      <div className="mt-3 pt-3 border-t border-white/[0.06] space-y-2">
+                        <p className="text-[11px] font-medium text-zinc-300 flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5 text-[#dfc195]" />
+                          Reserve viewing slot:
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {msg.suggestedSlots.map((slot, sIdx) => {
@@ -411,17 +397,17 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
                                 key={sIdx}
                                 onClick={() => handleSelectSlot(slot)}
                                 disabled={!!confirmedSlot}
-                                className={`text-left p-3 rounded-2xl border text-xs transition-all cursor-pointer flex items-center justify-between group ${
+                                className={`text-left p-2.5 rounded-lg border text-xs transition cursor-pointer flex items-center justify-between group ${
                                   isSelected
-                                    ? 'bg-emerald-500/20 border-emerald-500/60 text-emerald-300 font-bold ring-1 ring-emerald-500/40'
-                                    : 'bg-slate-950 border-slate-800 hover:border-amber-500/80 hover:bg-slate-800 text-white'
+                                    ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-medium'
+                                    : 'bg-zinc-900/90 border-white/[0.08] hover:border-[#c8a97e]/60 text-zinc-200'
                                 }`}
                               >
-                                <span className="truncate pr-1">{slot}</span>
+                                <span className="truncate pr-1 text-[11px]">{slot}</span>
                                 {isSelected ? (
-                                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                                 ) : (
-                                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-400 shrink-0" />
+                                  <ArrowRight className="w-3 h-3 text-zinc-400 group-hover:text-[#dfc195] shrink-0" />
                                 )}
                               </button>
                             );
@@ -432,8 +418,8 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
                   </div>
 
                   {!isAi && (
-                    <div className="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 text-slate-300 mt-1">
-                      <User className="w-4 h-4" />
+                    <div className="w-7 h-7 rounded bg-zinc-800 border border-white/[0.08] flex items-center justify-center shrink-0 text-zinc-300 mt-0.5">
+                      <User className="w-3.5 h-3.5" />
                     </div>
                   )}
                 </div>
@@ -441,20 +427,20 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
             })}
 
             {isLoading && (
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center text-slate-950">
-                  <Bot className="w-4 h-4 text-slate-950 animate-spin" />
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded bg-zinc-900 border border-white/[0.08] flex items-center justify-center text-[#dfc195]">
+                  <Bot className="w-3.5 h-3.5" />
                 </div>
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-400 flex items-center gap-2 shadow-md">
-                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-                  EstateFlow AI is calculating specifications & scheduling options...
+                <div className="bg-[#141720] border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-zinc-400 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#dfc195] animate-ping" />
+                  Generating listing data & verifying agent schedule...
                 </div>
               </div>
             )}
           </div>
 
           {/* Input Box */}
-          <div className="p-3.5 sm:p-4 bg-slate-950 border-t border-slate-800">
+          <div className="p-3 bg-zinc-950 border-t border-white/[0.06]">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -466,48 +452,48 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder="Ask about HOA fees, mortgages, schools, or request a tour time..."
-                className="flex-1 bg-slate-900 border border-slate-800 focus:border-amber-500 rounded-2xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none transition ring-0 focus:ring-1 focus:ring-amber-500"
+                placeholder="Ask about HOA fees, mortgage terms, schools, or schedule a tour..."
+                className="flex-1 bg-zinc-900 border border-white/[0.08] focus:border-[#c8a97e] rounded-lg px-3 py-2 text-xs text-white placeholder-zinc-500 focus:outline-none transition"
               />
               <button
                 type="submit"
                 disabled={!inputText.trim() || isLoading}
-                className="px-5 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 disabled:opacity-40 text-slate-950 font-black rounded-2xl transition flex items-center gap-1.5 text-xs shadow-md cursor-pointer"
+                className="px-4 py-2 bg-[#c8a97e] hover:bg-[#dfc195] disabled:opacity-40 text-zinc-950 font-semibold rounded-lg transition flex items-center gap-1.5 text-xs cursor-pointer"
               >
                 <span>Send</span>
-                <Send className="w-3.5 h-3.5 stroke-[2.5]" />
+                <Send className="w-3 h-3 stroke-[2.2]" />
               </button>
             </form>
           </div>
         </div>
 
         {/* Right 1 Col: Real-Time AI Intelligence Inspector */}
-        <div className="bg-slate-900/95 border border-slate-800 rounded-3xl p-5 shadow-2xl backdrop-blur-xl space-y-4 flex flex-col justify-between lg:min-h-[660px]">
+        <div className="surface-card rounded-xl p-4 space-y-4 flex flex-col justify-between lg:min-h-[640px]">
           <div className="space-y-4">
-            <div className="flex items-center justify-between pb-3.5 border-b border-slate-800">
+            <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-400" />
-                <h3 className="text-xs font-black text-white uppercase tracking-wider">
-                  Live AI Lead Qualifier
+                <Sparkles className="w-3.5 h-3.5 text-[#dfc195]" />
+                <h3 className="text-xs font-semibold text-white uppercase tracking-wider">
+                  Lead Intelligence
                 </h3>
               </div>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30">
-                Real-Time CRM
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] text-zinc-400 border border-white/[0.06]">
+                Live Inspector
               </span>
             </div>
 
             {/* Client Context Profile Card */}
             {activeLead && (
-              <div className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-center gap-3">
+              <div className="p-3 rounded-lg bg-zinc-900/80 border border-white/[0.06] flex items-center gap-2.5">
                 <img
                   src={activeLead.avatar}
                   alt={activeLead.name}
-                  className="w-10 h-10 rounded-full object-cover ring-2 ring-slate-700"
+                  className="w-8 h-8 rounded-full object-cover ring-1 ring-white/10"
                 />
                 <div className="min-w-0 flex-1">
-                  <h4 className="text-xs font-bold text-white truncate">{activeLead.name}</h4>
-                  <p className="text-[11px] text-slate-400 truncate">{activeLead.email}</p>
-                  <span className="inline-block mt-1 text-[9px] font-bold px-2 py-0.2 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+                  <h4 className="text-xs font-semibold text-white truncate">{activeLead.name}</h4>
+                  <p className="text-[11px] text-zinc-400 truncate font-mono">{activeLead.email}</p>
+                  <span className="inline-block mt-1 text-[9px] font-medium px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300 border border-white/[0.06]">
                     Stage: {activeLead.stage}
                   </span>
                 </div>
@@ -515,86 +501,82 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
             )}
 
             {/* Calculated Temperature Tier Card */}
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2.5">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">
+            <div className="p-3 rounded-lg bg-zinc-900/60 border border-white/[0.06] space-y-2">
+              <span className="text-[10px] font-medium text-zinc-400 uppercase tracking-wider block">
                 Calculated Temperature Tier
               </span>
               <div className="flex items-center gap-2">
                 {currentTemperature === 'Hot' && (
-                  <div className="flex items-center gap-2.5 text-rose-300 font-black text-xs bg-rose-500/20 border border-rose-500/40 px-3.5 py-2.5 rounded-2xl w-full shadow-lg shadow-rose-500/10">
-                    <Flame className="w-4 h-4 text-rose-400 animate-pulse" />
+                  <div className="flex items-center gap-2 text-rose-300 font-semibold text-xs bg-rose-500/10 border border-rose-500/20 px-3 py-2 rounded-lg w-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
                     <span>HOT LEAD (&gt;$1M / Immediate)</span>
                   </div>
                 )}
                 {currentTemperature === 'Warm' && (
-                  <div className="flex items-center gap-2.5 text-amber-300 font-black text-xs bg-amber-500/20 border border-amber-500/40 px-3.5 py-2.5 rounded-2xl w-full shadow-lg shadow-amber-500/10">
-                    <Sun className="w-4 h-4 text-amber-400" />
+                  <div className="flex items-center gap-2 text-amber-200 font-semibold text-xs bg-amber-500/10 border border-amber-500/20 px-3 py-2 rounded-lg w-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                     <span>WARM PROSPECT ($450k+)</span>
                   </div>
                 )}
                 {currentTemperature === 'Cold' && (
-                  <div className="flex items-center gap-2.5 text-sky-300 font-black text-xs bg-sky-500/20 border border-sky-500/40 px-3.5 py-2.5 rounded-2xl w-full shadow-lg shadow-sky-500/10">
-                    <Snowflake className="w-4 h-4 text-sky-400" />
+                  <div className="flex items-center gap-2 text-sky-300 font-semibold text-xs bg-sky-500/10 border border-sky-500/20 px-3 py-2 rounded-lg w-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
                     <span>COLD LEAD (&lt;$450k)</span>
                   </div>
                 )}
               </div>
-              <p className="text-[11px] text-slate-400 leading-snug">
-                Dynamically re-scored on every client response by budget extraction and urgency markers.
+              <p className="text-[11px] text-zinc-400 leading-snug">
+                Re-evaluated on every client response by budget extraction and urgency intent markers.
               </p>
             </div>
 
             {/* Budget & Intent Badges */}
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div className="p-3 rounded-2xl bg-slate-950 border border-slate-800">
-                <span className="text-[10px] font-bold text-slate-400 block mb-0.5">Detected Budget</span>
-                <span className="text-base font-black text-emerald-300">
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="p-2.5 rounded-lg bg-zinc-900/60 border border-white/[0.06]">
+                <span className="text-[10px] text-zinc-400 block mb-0.5">Detected Budget</span>
+                <span className="font-mono text-sm font-semibold text-emerald-400">
                   {lastDetectedBudget ? `$${lastDetectedBudget.toLocaleString()}` : '$1.85M'}
                 </span>
               </div>
-              <div className="p-3 rounded-2xl bg-slate-950 border border-slate-800">
-                <span className="text-[10px] font-bold text-slate-400 block mb-0.5">Client Intent</span>
-                <span className="text-xs font-bold text-amber-300 truncate block">
+              <div className="p-2.5 rounded-lg bg-zinc-900/60 border border-white/[0.06]">
+                <span className="text-[10px] text-zinc-400 block mb-0.5">Client Intent</span>
+                <span className="text-xs font-medium text-zinc-200 truncate block">
                   {lastIntent}
                 </span>
               </div>
             </div>
 
-            {/* Speed Benchmark Comparison */}
-            <div className="p-3 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
-              <div className="flex items-center justify-between text-slate-300">
-                <span className="text-slate-400 font-medium">AI Response Time:</span>
-                <span className="text-emerald-400 font-extrabold flex items-center gap-1">
-                  <Zap className="w-3.5 h-3.5" /> 0.35s Instant
+            {/* Benchmark */}
+            <div className="p-2.5 rounded-lg bg-zinc-900/60 border border-white/[0.06] text-xs space-y-1">
+              <div className="flex items-center justify-between text-zinc-300">
+                <span className="text-zinc-400 text-[11px]">AI Response Time:</span>
+                <span className="font-mono text-emerald-400 text-xs font-semibold flex items-center gap-1">
+                  <Zap className="w-3 h-3" /> 0.35s
                 </span>
-              </div>
-              <div className="flex items-center justify-between text-slate-400 text-[11px]">
-                <span>Human salesperson average:</span>
-                <span className="text-rose-400 line-through">3.5 hrs (Lost deal)</span>
               </div>
             </div>
 
             {/* Injected Property Knowledge */}
-            <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
-              <span className="font-extrabold text-slate-300 text-[11px] block">
-                Listing Knowledge Fed to AI:
+            <div className="p-3 rounded-lg bg-zinc-900/60 border border-white/[0.06] text-xs space-y-1.5">
+              <span className="font-medium text-zinc-300 text-[11px] block">
+                Listing Specifications:
               </span>
-              <ul className="text-[11px] text-slate-400 space-y-1">
+              <ul className="text-[11px] text-zinc-400 space-y-1">
                 <li className="flex justify-between">
-                  <span>Asking Price:</span>
-                  <span className="text-white font-bold">${selectedProperty.price.toLocaleString()}</span>
+                  <span>Price:</span>
+                  <span className="font-mono text-zinc-200 font-medium">${selectedProperty.price.toLocaleString()}</span>
                 </li>
                 <li className="flex justify-between">
                   <span>HOA Monthly:</span>
-                  <span className="text-white font-bold">${selectedProperty.hoaMonthly}/mo</span>
+                  <span className="font-mono text-zinc-200 font-medium">${selectedProperty.hoaMonthly}/mo</span>
                 </li>
                 <li className="flex justify-between">
-                  <span>Floor Plan:</span>
-                  <span className="text-white font-bold">{selectedProperty.bedrooms} Bed, {selectedProperty.bathrooms} Bath</span>
+                  <span>Layout:</span>
+                  <span className="text-zinc-200 font-medium">{selectedProperty.bedrooms} Bed, {selectedProperty.bathrooms} Bath</span>
                 </li>
                 <li className="flex justify-between">
                   <span>Host Agent:</span>
-                  <span className="text-white font-bold">{selectedProperty.agentName}</span>
+                  <span className="text-zinc-200 font-medium">{selectedProperty.agentName}</span>
                 </li>
               </ul>
             </div>
@@ -602,12 +584,12 @@ export const AIChatSimulator: React.FC<AIChatSimulatorProps> = ({
 
           {/* Bottom Confirmation Status */}
           {confirmedSlot && (
-            <div className="p-3.5 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs space-y-1 animate-in fade-in">
-              <span className="font-extrabold flex items-center gap-1.5 text-xs">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Tour Booked & Synced to Calendar!
+            <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs space-y-0.5 animate-in fade-in">
+              <span className="font-medium flex items-center gap-1.5 text-xs text-emerald-200">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Tour Scheduled
               </span>
-              <p className="text-[11px] text-slate-200">
-                Time: <strong className="text-white">{confirmedSlot}</strong>
+              <p className="text-[11px] text-zinc-300 font-mono">
+                {confirmedSlot}
               </p>
             </div>
           )}

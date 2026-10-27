@@ -41,7 +41,7 @@ export const WebhookSimulatorModal: React.FC<WebhookSimulatorModalProps> = ({
   const presets = [
     {
       id: 'hot-penthouse',
-      label: '🔥 WhatsApp: $2.5M Cash Penthouse Buyer (Hot)',
+      label: 'WhatsApp: $2.5M Cash Penthouse Buyer (Hot)',
       channel: 'WhatsApp' as const,
       provider: 'WhatsApp Business Cloud API' as const,
       senderName: 'Arthur & Beatrice Pendelton',
@@ -53,7 +53,7 @@ export const WebhookSimulatorModal: React.FC<WebhookSimulatorModalProps> = ({
     },
     {
       id: 'warm-family',
-      label: '🌤️ SMS: $650k Suburban Family Home (Warm)',
+      label: 'SMS: $650k Suburban Family Home (Warm)',
       channel: 'SMS' as const,
       provider: 'Twilio SMS' as const,
       senderName: 'Sarah & David Jenkins',
@@ -65,7 +65,7 @@ export const WebhookSimulatorModal: React.FC<WebhookSimulatorModalProps> = ({
     },
     {
       id: 'cold-firsttime',
-      label: '❄️ WhatsApp: $320k Starter Condo Search (Cold)',
+      label: 'WhatsApp: $320k Starter Condo Search (Cold)',
       channel: 'WhatsApp' as const,
       provider: 'WhatsApp Business Cloud API' as const,
       senderName: 'Liam Carter',
@@ -137,24 +137,24 @@ export const WebhookSimulatorModal: React.FC<WebhookSimulatorModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-3xl max-h-[calc(100dvh-1.5rem)] shadow-2xl overflow-hidden my-auto animate-in fade-in duration-200 flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm overflow-y-auto">
+      <div className="surface-elevated rounded-xl w-full max-w-3xl max-h-[calc(100dvh-2rem)] shadow-2xl overflow-hidden my-auto animate-in fade-in duration-200 flex flex-col">
         {/* Modal Header */}
-        <div className="p-5 sm:p-6 bg-slate-950 border-b border-slate-800 flex items-start justify-between gap-4">
+        <div className="p-4 sm:p-5 bg-zinc-950/80 border-b border-white/[0.08] flex items-start justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center shadow-lg shadow-amber-500/10">
-              <Webhook className="w-6 h-6 stroke-[2.2]" />
+            <div className="w-9 h-9 rounded-lg bg-zinc-900 border border-white/[0.1] text-indigo-400 flex items-center justify-center">
+              <Webhook className="w-4 h-4 stroke-[2]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base sm:text-lg font-black text-white">
-                  Incoming SMS / WhatsApp Webhook Simulator
+                <h2 className="text-sm sm:text-base font-bold text-white">
+                  SMS & WhatsApp Webhook Inbound Simulator
                 </h2>
-                <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
-                  AI Trigger
+                <span className="text-[10px] font-mono text-zinc-400 bg-white/[0.04] border border-white/[0.08] px-1.5 py-0.2 rounded">
+                  Pipeline Inbound
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-zinc-400 mt-0.5">
                 Simulate real-time webhooks from Twilio or Meta WhatsApp Cloud API to trigger the AI lead qualification pipeline.
               </p>
             </div>
@@ -162,32 +162,32 @@ export const WebhookSimulatorModal: React.FC<WebhookSimulatorModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+            className="p-1 rounded text-zinc-400 hover:text-white transition cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Content Body */}
-        <div className="p-5 sm:p-6 space-y-5 overflow-y-auto">
+        <div className="p-4 sm:p-5 space-y-4 overflow-y-auto">
           {/* Preset Buttons */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
-              Select Scenario Preset:
+            <label className="block text-[11px] font-medium uppercase tracking-wider text-zinc-400 mb-1.5">
+              Select Scenario Preset
             </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {presets.map((preset) => (
                 <button
                   key={preset.id}
                   onClick={() => handleSelectPreset(preset.id)}
-                  className={`p-3 rounded-2xl text-left border transition text-xs cursor-pointer flex flex-col justify-between ${
+                  className={`p-2.5 rounded-lg text-left border transition text-xs cursor-pointer flex flex-col justify-between ${
                     selectedPresetId === preset.id
-                      ? 'bg-amber-500/15 border-amber-500/60 text-white shadow-md ring-1 ring-amber-500/30'
-                      : 'bg-slate-950 border-slate-800 hover:border-slate-700 text-slate-400'
+                      ? 'bg-zinc-800 border-white/[0.14] text-white shadow-sm'
+                      : 'bg-zinc-900/60 border-white/[0.06] hover:border-white/[0.12] text-zinc-400'
                   }`}
                 >
-                  <span className="font-bold text-slate-200 line-clamp-1">{preset.label}</span>
-                  <span className="text-[10px] text-slate-400 mt-1 block font-medium">
+                  <span className="font-medium text-zinc-200 line-clamp-1">{preset.label}</span>
+                  <span className="text-[10px] text-zinc-500 mt-1 block">
                     {preset.channel} • {preset.senderName.split(' ')[0]}
                   </span>
                 </button>
@@ -196,49 +196,49 @@ export const WebhookSimulatorModal: React.FC<WebhookSimulatorModalProps> = ({
           </div>
 
           {/* Form vs JSON View Tabs */}
-          <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between border-b border-white/[0.06] pb-2">
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setActiveTab('form')}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+                className={`px-2.5 py-1 rounded-md text-xs font-medium transition cursor-pointer ${
                   activeTab === 'form'
-                    ? 'bg-slate-800 text-white border border-slate-700 shadow-sm'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-zinc-800 text-white border border-white/[0.1]'
+                    : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                Webhook Parameters
+                Payload Form
               </button>
               <button
                 onClick={() => setActiveTab('json')}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                className={`px-2.5 py-1 rounded-md text-xs font-medium transition cursor-pointer flex items-center gap-1.5 ${
                   activeTab === 'json'
-                    ? 'bg-slate-800 text-white border border-slate-700 shadow-sm'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-zinc-800 text-white border border-white/[0.1]'
+                    : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                <Code className="w-3.5 h-3.5 text-amber-400" />
-                Raw JSON Payload
+                <Code className="w-3 h-3 text-zinc-400" />
+                Raw JSON
               </button>
             </div>
-            <span className="text-[11px] text-slate-500 font-mono">POST /api/webhooks/incoming</span>
+            <span className="text-[10px] text-zinc-500 font-mono">POST /api/webhooks/incoming</span>
           </div>
 
           {activeTab === 'form' ? (
-            <div className="space-y-4 text-xs">
+            <div className="space-y-3 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1.5">Channel & Gateway</label>
-                  <div className="grid grid-cols-2 gap-2 bg-slate-950 p-1 rounded-2xl border border-slate-800">
+                  <label className="block font-medium text-zinc-300 mb-1">Gateway</label>
+                  <div className="grid grid-cols-2 gap-1 bg-zinc-900 p-0.5 rounded-lg border border-white/[0.08]">
                     <button
                       type="button"
                       onClick={() => {
                         setChannel('WhatsApp');
                         setProvider('WhatsApp Business Cloud API');
                       }}
-                      className={`py-2 rounded-xl font-bold text-center transition cursor-pointer ${
+                      className={`py-1 rounded-md font-medium text-center transition cursor-pointer ${
                         channel === 'WhatsApp'
-                          ? 'bg-emerald-500 text-slate-950 shadow-md'
-                          : 'text-slate-400 hover:text-white'
+                          ? 'bg-zinc-800 text-white shadow-sm'
+                          : 'text-zinc-400 hover:text-white'
                       }`}
                     >
                       WhatsApp
@@ -249,10 +249,10 @@ export const WebhookSimulatorModal: React.FC<WebhookSimulatorModalProps> = ({
                         setChannel('SMS');
                         setProvider('Twilio SMS');
                       }}
-                      className={`py-2 rounded-xl font-bold text-center transition cursor-pointer ${
+                      className={`py-1 rounded-md font-medium text-center transition cursor-pointer ${
                         channel === 'SMS'
-                          ? 'bg-indigo-500 text-white shadow-md'
-                          : 'text-slate-400 hover:text-white'
+                          ? 'bg-zinc-800 text-white shadow-sm'
+                          : 'text-zinc-400 hover:text-white'
                       }`}
                     >
                       Twilio SMS
@@ -261,34 +261,32 @@ export const WebhookSimulatorModal: React.FC<WebhookSimulatorModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1.5">Sender Name</label>
+                  <label className="block font-medium text-zinc-300 mb-1">Sender Name</label>
                   <input
                     type="text"
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-amber-500"
+                    className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-[#c8a97e]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1.5">
-                    Sender Phone (E.164)
-                  </label>
+                  <label className="block font-medium text-zinc-300 mb-1">Sender Phone</label>
                   <input
                     type="text"
                     value={senderPhone}
                     onChange={(e) => setSenderPhone(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-amber-500"
+                    className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-[#c8a97e]"
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1.5">Target Listing</label>
+                  <label className="block font-medium text-zinc-300 mb-1">Target Property</label>
                   <select
                     value={targetPropertyTitle}
                     onChange={(e) => setTargetPropertyTitle(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-amber-500 font-medium"
+                    className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg px-3 py-1.5 text-white focus:outline-none focus:border-[#c8a97e]"
                   >
                     {properties.map((p) => (
                       <option key={p.id} value={p.title}>
@@ -300,118 +298,118 @@ export const WebhookSimulatorModal: React.FC<WebhookSimulatorModalProps> = ({
               </div>
 
               <div>
-                <label className="block font-bold text-slate-300 mb-1.5">
-                  Incoming Message Body (Client Inquiry) *
+                <label className="block font-medium text-zinc-300 mb-1">
+                  Inbound Message Body *
                 </label>
                 <textarea
                   rows={3}
                   value={messageText}
                   onChange={(e) => setMessageText(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3.5 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 leading-relaxed font-sans text-xs"
+                  className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg p-3 text-white placeholder-zinc-500 focus:outline-none focus:border-[#c8a97e] leading-relaxed font-sans text-xs"
                 />
               </div>
             </div>
           ) : (
-            <div className="bg-slate-950 rounded-2xl p-4 border border-slate-800 font-mono text-[11px] text-emerald-400 overflow-x-auto">
+            <div className="bg-black/30 rounded-lg p-3 border border-white/[0.06] font-mono text-[11px] text-emerald-400 overflow-x-auto">
               <pre>{JSON.stringify(getPayload(), null, 2)}</pre>
             </div>
           )}
 
           {/* Action Button */}
-          <div className="pt-2">
+          <div className="pt-1">
             <button
               onClick={handleDispatch}
               disabled={isProcessing || !messageText.trim()}
-              className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-xs sm:text-sm shadow-xl shadow-amber-500/20 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="w-full py-2.5 rounded-lg bg-[#c8a97e] hover:bg-[#dfc195] text-zinc-950 font-semibold text-xs transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-sm"
             >
-              <Zap className="w-4 h-4 text-slate-950 fill-current" />
+              <Zap className="w-3.5 h-3.5 fill-current" />
               <span>
                 {isProcessing
-                  ? 'Processing Webhook & Running AI Lead Qualification...'
-                  : 'Dispatch Webhook -> Trigger AI Lead Qualification'}
+                  ? 'Processing Webhook & Qualifying Lead...'
+                  : 'Dispatch Webhook & Execute AI Qualification'}
               </span>
             </button>
           </div>
 
           {/* Real-time Webhook Execution Trace & AI Results */}
           {executionResult && (
-            <div className="bg-slate-950 border border-emerald-500/40 rounded-3xl p-5 space-y-4 animate-in slide-in-from-bottom duration-300 shadow-2xl">
-              <div className="flex items-center justify-between pb-3.5 border-b border-slate-800">
+            <div className="bg-zinc-950/90 border border-white/[0.08] rounded-lg p-4 space-y-3 animate-in slide-in-from-bottom duration-200">
+              <div className="flex items-center justify-between pb-2.5 border-b border-white/[0.06]">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-                  <span className="text-xs font-black text-white uppercase tracking-wider">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <span className="text-xs font-semibold text-white">
                     Webhook Pipeline Executed (HTTP 200 OK)
                   </span>
                 </div>
-                <span className="text-[11px] text-emerald-400 font-mono font-bold">
+                <span className="text-[10px] text-zinc-400 font-mono">
                   Latency: {executionResult.executionTimeMs}ms
                 </span>
               </div>
 
               {/* Step Summary Cards */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
-                <div className="p-3 rounded-2xl bg-slate-900 border border-slate-800">
-                  <span className="text-[10px] text-slate-400 block font-medium">Detected Budget</span>
-                  <span className="text-sm font-black text-emerald-300">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                <div className="p-2.5 rounded bg-zinc-900/60 border border-white/[0.06]">
+                  <span className="text-[10px] text-zinc-400 block font-normal">Detected Budget</span>
+                  <span className="font-mono text-xs font-semibold text-emerald-400">
                     ${executionResult.detectedBudget.toLocaleString()}
                   </span>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-slate-900 border border-slate-800">
-                  <span className="text-[10px] text-slate-400 block font-medium">Temperature Tier</span>
-                  <span className="mt-1 inline-block">
+                <div className="p-2.5 rounded bg-zinc-900/60 border border-white/[0.06]">
+                  <span className="text-[10px] text-zinc-400 block font-normal">Tier</span>
+                  <span className="mt-0.5 inline-block">
                     {executionResult.temperature === 'Hot' && (
-                      <span className="text-[10px] font-black text-rose-300 px-2.5 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/40 flex items-center gap-1">
-                        <Flame className="w-3 h-3 text-rose-400" /> HOT LEAD
+                      <span className="text-[10px] font-medium text-rose-300 px-1.5 py-0.2 rounded bg-rose-500/10 border border-rose-500/20">
+                        Hot Lead
                       </span>
                     )}
                     {executionResult.temperature === 'Warm' && (
-                      <span className="text-[10px] font-black text-amber-300 px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center gap-1">
-                        <Sun className="w-3 h-3 text-amber-400" /> WARM LEAD
+                      <span className="text-[10px] font-medium text-amber-200 px-1.5 py-0.2 rounded bg-amber-500/10 border border-amber-500/20">
+                        Warm
                       </span>
                     )}
                     {executionResult.temperature === 'Cold' && (
-                      <span className="text-[10px] font-black text-sky-300 px-2.5 py-0.5 rounded-full bg-sky-500/20 border border-sky-500/40 flex items-center gap-1">
-                        <Snowflake className="w-3 h-3 text-sky-400" /> COLD LEAD
+                      <span className="text-[10px] font-medium text-sky-300 px-1.5 py-0.2 rounded bg-sky-500/10 border border-sky-500/20">
+                        Cold
                       </span>
                     )}
                   </span>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-slate-900 border border-slate-800">
-                  <span className="text-[10px] text-slate-400 block font-medium">Matched Listing</span>
-                  <span className="text-xs font-bold text-slate-200 truncate block mt-0.5">
+                <div className="p-2.5 rounded bg-zinc-900/60 border border-white/[0.06]">
+                  <span className="text-[10px] text-zinc-400 block font-normal">Matched Listing</span>
+                  <span className="text-xs font-medium text-zinc-200 truncate block mt-0.5">
                     {executionResult.propertyTitle}
                   </span>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-slate-900 border border-slate-800">
-                  <span className="text-[10px] text-slate-400 block font-medium">Proposed Slots</span>
-                  <span className="text-xs font-bold text-amber-300 mt-0.5 block">
+                <div className="p-2.5 rounded bg-zinc-900/60 border border-white/[0.06]">
+                  <span className="text-[10px] text-zinc-400 block font-normal">Proposed Slots</span>
+                  <span className="text-xs font-medium text-zinc-200 mt-0.5 block">
                     {executionResult.suggestedSlots.length} available
                   </span>
                 </div>
               </div>
 
               {/* AI Auto-Response Dispatched via SMS/WhatsApp */}
-              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+              <div className="p-3 rounded bg-zinc-900/60 border border-white/[0.06] space-y-1.5">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-white flex items-center gap-1.5">
-                    <Send className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="font-medium text-white flex items-center gap-1.5">
+                    <Send className="w-3 h-3 text-emerald-400" />
                     AI Auto-Dispatched Response ({channel}):
                   </span>
-                  <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/30">
-                    Dispatched to Client
+                  <span className="text-[9px] text-emerald-400 font-mono bg-emerald-500/10 px-1.5 py-0.2 rounded">
+                    Dispatched
                   </span>
                 </div>
-                <p className="text-slate-300 text-xs whitespace-pre-line leading-relaxed bg-slate-950 p-3 rounded-xl border border-slate-800/80 font-mono">
+                <p className="text-zinc-300 text-xs whitespace-pre-line leading-relaxed bg-black/20 p-2.5 rounded border border-white/[0.04] font-mono">
                   {executionResult.aiReplyText}
                 </p>
               </div>
 
               {/* Rationale & CRM Navigation */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
-                <p className="text-[11px] text-slate-400 italic">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1">
+                <p className="text-[11px] text-zinc-400 italic">
                   Rationale: "{executionResult.rationale}"
                 </p>
 
@@ -421,7 +419,7 @@ export const WebhookSimulatorModal: React.FC<WebhookSimulatorModalProps> = ({
                       onClose();
                       onOpenChatWithLead(executionResult.leadId);
                     }}
-                    className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition cursor-pointer"
+                    className="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium transition cursor-pointer"
                   >
                     Open in Chat
                   </button>
@@ -430,10 +428,10 @@ export const WebhookSimulatorModal: React.FC<WebhookSimulatorModalProps> = ({
                       onClose();
                       onViewLeadInCRM(executionResult.leadId);
                     }}
-                    className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 font-black text-xs shadow-md transition cursor-pointer flex items-center gap-1.5"
+                    className="px-3 py-1.5 rounded-lg bg-[#c8a97e] hover:bg-[#dfc195] text-zinc-950 font-semibold text-xs transition cursor-pointer flex items-center gap-1"
                   >
                     <span>View in CRM</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3 h-3" />
                   </button>
                 </div>
               </div>
