@@ -469,7 +469,7 @@ Reply with your preferred slot and we will confirm it on your calendar instantly
 
   return (
     <div className="min-h-[100dvh] bg-[#090a0f] text-zinc-100 flex flex-col font-sans selection:bg-amber-500/20 selection:text-amber-200">
-      {/* Navigation Header */}
+      {/* Navigation Header & Real-time CRM Shell */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -477,11 +477,12 @@ Reply with your preferred slot and we will confirm it on your calendar instantly
         onSimulateInboundLead={handleSimulateInboundLead}
         onOpenWebhookSimulator={() => setIsWebhookModalOpen(true)}
         hasGeminiKey={hasGeminiKey}
+        onOpenNewLeadModal={() => setIsNewLeadModalOpen(true)}
       />
 
       {/* Toast Notification Banner */}
       {toastMessage && (
-        <div className="fixed top-[4.8rem] right-4 sm:right-8 z-[60] w-[calc(100%-2rem)] sm:w-auto animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="fixed top-20 right-4 sm:right-8 z-[60] w-[calc(100%-2rem)] sm:w-auto animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="surface-elevated text-zinc-100 px-4 py-2.5 rounded-lg shadow-xl flex items-center gap-3 text-xs font-medium backdrop-blur-xl">
             <span className="w-2 h-2 rounded-full bg-[#dfc195]" />
             <span className="flex-1 text-zinc-200">{toastMessage}</span>
@@ -495,8 +496,8 @@ Reply with your preferred slot and we will confirm it on your calendar instantly
         </div>
       )}
 
-      {/* Main View Container */}
-      <main className="flex-1 max-w-[96rem] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      {/* Main View Container Offset by Persistent Desktop Sidebar */}
+      <main className="flex-1 lg:pl-64 w-full px-4 sm:px-6 lg:px-8 py-5">
         {activeTab === 'crm' && (
           <LeadsPipeline
             leads={leads}
@@ -523,6 +524,12 @@ Reply with your preferred slot and we will confirm it on your calendar instantly
             onLeadUpdated={handleUpdateLead}
             onAppointmentBooked={handleAddAppointment}
             hasGeminiKey={hasGeminiKey}
+            leads={leads}
+            onSelectLead={(lead) => {
+              setActiveChatLead(lead);
+              const prop = properties.find((p) => p.id === lead.interestedPropertyId) || properties[0];
+              setSelectedPropertyForChat(prop);
+            }}
           />
         )}
 
@@ -566,12 +573,12 @@ Reply with your preferred slot and we will confirm it on your calendar instantly
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/[0.06] bg-[#090a0f] py-5 text-xs text-zinc-500">
-        <div className="max-w-[96rem] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <footer className="border-t border-white/[0.06] bg-[#090a0f] py-4 text-xs text-zinc-500 lg:pl-64">
+        <div className="w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2.5">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-zinc-300">EstateFlow AI</span>
+            <span className="font-semibold text-zinc-300">EstateFlow CRM</span>
             <span className="text-zinc-600">•</span>
-            <span className="text-zinc-400">Intelligent Real Estate Brokerage Platform</span>
+            <span className="text-zinc-400">Autonomous Real Estate Sales Assistant</span>
           </div>
           <div className="flex items-center gap-4 text-[11px] font-mono text-zinc-400">
             <span className="flex items-center gap-1.5">
